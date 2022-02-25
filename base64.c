@@ -1,7 +1,8 @@
-// =================================
-// Base64 Encoding and Decoding ALgorithm
-// Author: HackitMikey [Mikey]
-// (Cli Wizard) base64 algorithm implemented in C.
+//=================================================_
+//  Base64 Encoding and Decoding ALgorithm         |_ 
+//      Author: HackitMikey [Mikey]                 |_
+// (Cli Wizard) base64 algorithm implemented in C.   |_
+//=====================================================
 
 
 #include<stdio.h>
