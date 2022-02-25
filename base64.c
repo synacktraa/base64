@@ -70,7 +70,11 @@ void decode(char*base64Data){
             decToBin(*(base64Data+i)-71, Ox49_val_bin);
         } else if(*(base64Data+i)>=0x30 && *(base64Data+i)<=0x39){
             decToBin(*(base64Data+i)+4, Ox49_val_bin);
-        }
+        } else if(*(base64Data+i)==0x2b)
+            decToBin(*(base64Data+i)+19, Ox49_val_bin);
+        else if(*(base64Data+i)==0x2f)
+            decToBin(*(base64Data+i)+16, Ox49_val_bin);
+
         k = Strlen(Ox49_val_bin);
         while(Strlen(Ox49_val_bin)%6 != 0)
             k = insert(Ox49_val_bin, 0, 0x30, k, sizeof(Ox49_val_bin));
@@ -117,8 +121,9 @@ int main(int argc, char* argv[]){
 		} else if(!Strcmp(argv[1], "--decode") || !Strcmp(argv[1], "-d")){
 			decode(argv[2]);
 		}
-	}
-
+	} else{
+        fprintf(stderr, "Usage: %s --encode/--decode \"data\"", argv[0]);
+    }
 }
 
 // 01101000 01100001 01110010 01110011 01101000 		 01101000 01100101 01111001
