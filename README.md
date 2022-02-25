@@ -42,3 +42,4 @@ Output:
 Hack Teh World
 ```
 ___
+<p align=center>&copy; This tool is based on UTF-8 charset.</p>
