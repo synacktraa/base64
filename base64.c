@@ -10,10 +10,17 @@
 #include<stdlib.h>
 #include"base64_utils.h"
 
+#define DUMP_VAL 2000
+#define DATA_VAL 500
+
+#include<stdio.h>
+#include<stdlib.h>
+#include"base64_utils.h"
+
 void encode(char*string){
 
-    char six_bit_bin[10], base64_val[400];
-    char Ox49_val_bin[10], bin_dump[800];
+    char six_bit_bin[10], base64_val[500];
+    char Ox49_val_bin[10], bin_dump[2000];
     int i, j, k, bin_dump_len, ascii_val;
 
 	//I don't understand why the f*ck the length is not 0,
@@ -57,19 +64,20 @@ void encode(char*string){
     base64_val[j] = '\0';
     while(Strlen(base64_val)%4 != 0)
         insert(base64_val, Strlen(base64_val), 0x3d, Strlen(base64_val), sizeof(base64_val));
-    printf("%s\n", base64_val);
+    printf("%s", base64_val);
 
 }
 
 void decode(char*base64Data){
 
 	int i, j, k, data_len = Strlen(base64Data);
-    char bin_dump[500], Ox49_val_bin[10], byte_bin[10], decodeData[100];
+    char bin_dump[2000], Ox49_val_bin[10], byte_bin[10], decodeData[500];
 
 	while(*(base64Data+(data_len-1)) == 0x3D){
 		data_len = delete(base64Data, data_len-1, data_len);
 	}
     memreset(bin_dump, Strlen(bin_dump));
+    memreset(Ox49_val_bin, Strlen(Ox49_val_bin));
 
     for(i=0; *(base64Data+i)!=0; ++i){
         if(*(base64Data+i)>=0x41 && *(base64Data+i)<=0x5A){
@@ -88,6 +96,7 @@ void decode(char*base64Data){
         k = Strlen(Ox49_val_bin);
         while(Strlen(Ox49_val_bin)%6 != 0)
             k = insert(Ox49_val_bin, 0, 0x30, k, sizeof(Ox49_val_bin));
+
         *(Ox49_val_bin+k) = '\0';
         Strcat(bin_dump, Ox49_val_bin);
         memreset(Ox49_val_bin, Strlen(Ox49_val_bin));
@@ -106,8 +115,9 @@ void decode(char*base64Data){
         j++; i = 0;
     }
     *(decodeData+j) = '\0';
+
     if(*(decodeData)<0x20 || *(decodeData)>0x7e){
-        fprintf(stderr, "Error: The string to be decoded is not correctly encoded.");
+        fprintf(stderr, "Error: The string to be decoded is not correctly encoded.\n");
         exit(1);
     }else if(*(decodeData)>=0x20 && *(decodeData)<=0x7e){
         data_len = Strlen(decodeData);
@@ -117,6 +127,7 @@ void decode(char*base64Data){
             }
         }
     }
+
     printf("%s\n", decodeData);
 
 }
