@@ -11,7 +11,7 @@ Output:
 ```
 
 Note: Put space separated data in quotes.
-Usage: E:\GIT\Clang_Projects\Base64\base_64.exe <opt> "data"
+Usage: base_64 <opt> "data"
 |CLI options|:-
         -e - Encodes the data string
         -d - Decodes the data string
