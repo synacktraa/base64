@@ -2,13 +2,7 @@
 
 >Base64 encoding and decoding algorithm implemented in C.
 
-Compile:
-
-```powershell
-gcc base64.c utils.c -o base64
-```
----
-Ask For Help:
+## Help:
 
 >```base_64 -h```
 
