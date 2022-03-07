@@ -10,13 +10,13 @@ gcc base64.c utils.c -o base64
 ---
 Ask For Help:
 
->```base64 -h 'or' base64 --help```
+>```base_64 -h```
 
 Output:
 
 ```
 
-Usage: base64  --<mode> <data>
+Usage: base_64  --<mode> <data>
 |CLI options|:-
         <data> = A data string which will be manipulated.
         <mode>:
