@@ -7,7 +7,6 @@
 
 
 #include<stdio.h>
-#include<stdlib.h>
 #include"base64_utils.h"
 
 #define DUMP_TSIZE 2000
@@ -65,7 +64,7 @@ void encode(char*string){
 
 }
 
-void decode(char*base64Data){
+int decode(char*base64Data){
 
 	int i, j, k, data_len = Strlen(base64Data);
     char bin_dump[DUMP_TSIZE], Ox49_val_bin[10], byte_bin[10], decodeData[DATA_TSIZE];
@@ -87,8 +86,8 @@ void decode(char*base64Data){
             decToBin(*(base64Data+i)+19, Ox49_val_bin);
         else if(*(base64Data+i)==0x2f)
             decToBin(*(base64Data+i)+16, Ox49_val_bin);
-        // else if(*(base64Data+i) == 0x41)
-        //     Strcpy(Ox49_val_bin, "000000");
+        else
+            return 1;
 
         k = Strlen(Ox49_val_bin);
         while(Strlen(Ox49_val_bin)%6 != 0)
@@ -115,7 +114,7 @@ void decode(char*base64Data){
 
     if(*(decodeData)<0x20 || *(decodeData)>0x7e){
         fprintf(stderr, "Error: The string to be decoded is not correctly encoded.\n");
-        exit(1);
+        return 1;
     }else if(*(decodeData)>=0x20 && *(decodeData)<=0x7e){
         data_len = Strlen(decodeData);
         for(i=1; *(decodeData+i) != '\0'; ++i){
