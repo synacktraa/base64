@@ -16,17 +16,16 @@ Output:
 
 ```
 
-Usage: base_64  --<mode> <data>
+Note: Put space separated data in quotes.
+Usage: E:\GIT\Clang_Projects\Base64\base_64.exe <opt> "data"
 |CLI options|:-
-        <data> = A data string which will be manipulated.
-        <mode>:
-                -e, --encode = Encodes the data string
-                -d, --decode = Decodes the data string
+        -e - Encodes the data string
+        -d - Decodes the data string
 ```
 ---
 ## Encoding:
 ```powershell
-base64 --encode "Hack Teh World"
+base_64 -e "Hack Teh World"
 ```
 Output:
 ```
@@ -35,7 +34,7 @@ SGFjayBUZWggV29ybGQ=
 ---
 ## Decoding:
 ```powershell
-base64 --encode "SGFjayBUZWggV29ybGQ="
+base_64 -d "SGFjayBUZWggV29ybGQ="
 ```
 Output:
 ```
