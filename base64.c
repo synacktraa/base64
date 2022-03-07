@@ -57,7 +57,7 @@ void encode(char*string){
     base64_val[j] = '\0';
     while(Strlen(base64_val)%4 != 0)
         insert(base64_val, Strlen(base64_val), 0x3d, Strlen(base64_val), sizeof(base64_val));
-    printf("%s", base64_val);
+    printf("%s\n", base64_val);
 
 }
 
@@ -125,22 +125,22 @@ int main(int argc, char* argv[]){
 	
     if(argc==2){
         if(!Strcmp(argv[1], "--help") || !Strcmp(argv[1], "-h")){
-            fprintf(stdout, "\nUsage: %s --<mode> <data>\n|CLI options|:-\
-            \n\t<data> = A data string which will be manipulated.\
-            \n\t<mode>:\n\t\t-e, --encode = Encodes the data string\
-            \n\t\t-d, --decode = Decodes the data string\n\n", argv[0]);
+            fprintf(stdout, "\nNote: Put space separated data in quotes.\
+            \nUsage: %s <opt> \"data\"\n|CLI options|:-\
+            \n\t-e - Encodes the data string\
+            \n\t-d - Decodes the data string\n\n", argv[0]);
 
         }
     }else if(argc==3){
-		if(!Strcmp(argv[1], "--encode") || !Strcmp(argv[1], "-e")){
+		if(!Strcmp(argv[1], "-e")){
 			encode(argv[2]);
             // for(int i = 0; i < 127; ++i)
             //     printf("%d: %c\n", i, i);
-		} else if(!Strcmp(argv[1], "--decode") || !Strcmp(argv[1], "-d")){
+		} else if(!Strcmp(argv[1], "-d")){
 			decode(argv[2]);
 		}
 	} else{
-        fprintf(stderr, "Usage: %s --encode/--decode \"data\"", argv[0]);
+        fprintf(stderr, "Usage: %s <opt> \"data\"\n", argv[0]);
     }
 }
 
