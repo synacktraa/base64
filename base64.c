@@ -10,17 +10,14 @@
 #include<stdlib.h>
 #include"base64_utils.h"
 
-#define DUMP_VAL 2000
-#define DATA_VAL 500
+#define DUMP_TSIZE 2000
+#define DATA_TSIZE 500
 
-#include<stdio.h>
-#include<stdlib.h>
-#include"base64_utils.h"
 
 void encode(char*string){
 
-    char six_bit_bin[10], base64_val[500];
-    char Ox49_val_bin[10], bin_dump[2000];
+    char six_bit_bin[10], base64_val[DATA_TSIZE];
+    char Ox49_val_bin[10], bin_dump[DUMP_TSIZE];
     int i, j, k, bin_dump_len, ascii_val;
 
 	//I don't understand why the f*ck the length is not 0,
@@ -64,14 +61,14 @@ void encode(char*string){
     base64_val[j] = '\0';
     while(Strlen(base64_val)%4 != 0)
         insert(base64_val, Strlen(base64_val), 0x3d, Strlen(base64_val), sizeof(base64_val));
-    printf("%s", base64_val);
+    printf("%s\n", base64_val);
 
 }
 
 void decode(char*base64Data){
 
 	int i, j, k, data_len = Strlen(base64Data);
-    char bin_dump[2000], Ox49_val_bin[10], byte_bin[10], decodeData[500];
+    char bin_dump[DUMP_TSIZE], Ox49_val_bin[10], byte_bin[10], decodeData[DATA_TSIZE];
 
 	while(*(base64Data+(data_len-1)) == 0x3D){
 		data_len = delete(base64Data, data_len-1, data_len);
