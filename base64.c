@@ -132,7 +132,7 @@ void decode(char*base64Data){
 int main(int argc, char* argv[]){
 	
     if(argc==2){
-        if(!Strcmp(argv[1], "--help") || !Strcmp(argv[1], "-h")){
+        if(!Strcmp(argv[1], "-h")){
             fprintf(stdout, "\nNote: Put space separated data in quotes.\
             \nUsage: %s <opt> \"data\"\n|CLI options|:-\
             \n\t-e - Encodes the data string\
@@ -148,7 +148,7 @@ int main(int argc, char* argv[]){
 			decode(argv[2]);
 		}
 	} else{
-        fprintf(stderr, "Usage: %s <opt> \"data\"\n", argv[0]);
+        fprintf(stderr, "\nUsage: %s <opt> \"data\"\nFor more:\n\t %s -h\n\n", argv[0], argv[0]);
     }
 }
 
