@@ -1,6 +1,6 @@
 //=================================================_
 //  Base64 Encoding and Decoding Algorithm         |_ 
-//      Author: HackitMikey [Mikey]                 |_
+//      Author: SynActktraa [Mikey]                 |_
 // (Cli Wizard) base64 algorithm implemented in C.   |_
 //     © This tool is based on UTF-8 charset.          |_
 //=======================================================
@@ -8,7 +8,7 @@
 
 #include<stdio.h>
 #include<stdlib.h>
-#include"utils.h"
+#include"base64_utils.h"
 
 void encode(char*string){
 
@@ -82,6 +82,8 @@ void decode(char*base64Data){
             decToBin(*(base64Data+i)+19, Ox49_val_bin);
         else if(*(base64Data+i)==0x2f)
             decToBin(*(base64Data+i)+16, Ox49_val_bin);
+        // else if(*(base64Data+i) == 0x41)
+        //     Strcpy(Ox49_val_bin, "000000");
 
         k = Strlen(Ox49_val_bin);
         while(Strlen(Ox49_val_bin)%6 != 0)
