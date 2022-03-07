@@ -148,7 +148,9 @@ int main(int argc, char* argv[]){
 			decode(argv[2]);
 		}
 	} else{
-        fprintf(stderr, "\nUsage: %s <opt> \"data\"\nFor more:\n\t %s -h\n\n", argv[0], argv[0]);
+        fprintf(stderr, "\nUsage: %s <opt> \"data\"\
+        \nFor more, check help section:\
+        \n    %s -h\n\n", argv[0], argv[0]);
     }
 }
 
