@@ -104,7 +104,6 @@ int insert(char*data, int index, int element, int uSize, int tSize){
 
 int binToDec(char* binary){ // function to convert binary value to decimal value
     
-    int n;
     int i = 0, j, k;
     int dec = 0;
     while(*(binary+i) != '\0')
