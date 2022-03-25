@@ -1,5 +1,5 @@
-#ifndef UTILS_H /* Include guard */
-#define UTILS_H
+#ifndef BASE64_UTILS_H /* Include guard */
+#define BASE64_UTILS_H
 
 //Function declarations
 
