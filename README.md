@@ -32,9 +32,10 @@ TW9tIHNwYWdoZXR0aQ==
 ```bash
 ./base_64 -d "U3RhciB0aGlzIHByb2plY3QgOiksIGl0IGJvb3N0cyBteSBlZ28u"
 
-```bash
-Output:
 ```
+
+Output:
+```bash
 Star this project :), it boosts my ego.
 ```
 ___
