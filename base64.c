@@ -2,48 +2,56 @@
 //  Base64 Encoding and Decoding Algorithm         |_ 
 //      Author: SynActktraa [Mikey]                 |_
 // (Cli Wizard) base64 algorithm implemented in C.   |_
-//     © This tool is based on UTF-8 charset.          |_
+//     © This tool is based on ASCII charset.         |_
 //=======================================================
 
 
 #include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
 #include"base64_utils.h"
-
-#define DUMP_TSIZE 2000
-#define DATA_TSIZE 500
 
 
 void encode(char*string){
 
-    char six_bit_bin[10], base64_val[DATA_TSIZE];
-    char Ox49_val_bin[10], bin_dump[DUMP_TSIZE];
-    int i, j, k, bin_dump_len, ascii_val;
+    int string_len = strlen(string);
 
-	//I don't understand why the f*ck the length is not 0,
-	//i didn't even initialized them with a value,
-	//that's resetting the strings
-    memreset(Ox49_val_bin, Strlen(Ox49_val_bin));
-    memreset(bin_dump, Strlen(bin_dump));
+    int base64_val_space = (0.4*(string_len+1))+string_len+2;
+    int bin_dump_space = (string_len * 8)+1;
+
+    char six_bit_bin[7], Ox49_val_bin[9]; 
+
+    char *base64_val = (char*)malloc(sizeof(char) * base64_val_space);
+    char *bin_dump = (char*)malloc(sizeof(char) * bin_dump_space);
+
+    int i, j, k, bin_dump_len, ascii_val;
+    
+    memset(Ox49_val_bin, 0, strlen(Ox49_val_bin));
+    memset(bin_dump, 0, strlen(bin_dump));
 
     for(i=0; *(string+i) != '\0'; ++i){
-        decToBin(*(string+i), Ox49_val_bin);
-		while(Strlen(Ox49_val_bin)%8 != 0){
-        	k = insert(Ox49_val_bin, 0, 0x30, Strlen(Ox49_val_bin), sizeof(Ox49_val_bin));
+        strcpy(Ox49_val_bin, decToBin(i[string]));
+		while(strlen(Ox49_val_bin)%8 != 0){
+
+        	k = insert(Ox49_val_bin, 0, '0', strlen(Ox49_val_bin), strlen(Ox49_val_bin)+1);
         	Ox49_val_bin[k] = '\0';
-    }
-        Strcat(bin_dump, Ox49_val_bin);
-        memreset(Ox49_val_bin, Strlen(Ox49_val_bin));
+    }   
+        strcat(bin_dump, Ox49_val_bin);
+        memset(Ox49_val_bin, 0, strlen(Ox49_val_bin));
+
     }
 
-    bin_dump_len = Strlen(bin_dump);
+    bin_dump_len = strlen(bin_dump);
     while(bin_dump_len%6 != 0)
-        bin_dump_len = insert(bin_dump, bin_dump_len, 0x30, bin_dump_len, sizeof(bin_dump));
+        bin_dump_len = insert(bin_dump, bin_dump_len, '0', bin_dump_len, strlen(bin_dump)+1);
 
-    i = 0, j = 0;
+    i = 0, j = 0;   
     while(*(bin_dump+i)!='\0'){
 
-        bin_dump_len = Strncut(six_bit_bin, bin_dump, 6);
+        memset(six_bit_bin, 0, strlen(six_bit_bin));
+        memmove(six_bit_bin, bin_dump+i, 6);
         ascii_val = binToDec(six_bit_bin);
+
         if(ascii_val>=0 && ascii_val<=25)
             base64_val[j] = ascii_val+65;
         else if(ascii_val>=26 && ascii_val<=51)
@@ -54,84 +62,102 @@ void encode(char*string){
             base64_val[j] = ascii_val-19;
         else if(ascii_val==63)
             base64_val[j] = ascii_val-16;
-        j++; i = 0;
+        
+        j++; i += 6;
 
     }
     base64_val[j] = '\0';
-    while(Strlen(base64_val)%4 != 0)
-        insert(base64_val, Strlen(base64_val), 0x3d, Strlen(base64_val), sizeof(base64_val));
-    printf("%s\n", base64_val);
+
+    free(bin_dump);
+
+    while(strlen(base64_val)%4 != 0)
+        insert(base64_val, strlen(base64_val), 0x3d, strlen(base64_val), base64_val_space);
+
+    fwrite(base64_val, 1, strlen(base64_val), stdout);
+    free(base64_val); 
 
 }
 
-int decode(char*base64Data){
+void decode(char*base64Data){
 
-	int i, j, k, data_len = Strlen(base64Data);
-    char bin_dump[DUMP_TSIZE], Ox49_val_bin[10], byte_bin[10], decodeData[DATA_TSIZE];
+	int i, j, k, data_len = strlen(base64Data);
+
+    int decData_val_space = (data_len+2)-(0.15*data_len);
+    int bin_dump_space = (data_len * 6)+1;
+
+    char Ox49_val_bin[10], byte_bin[10];
+    char *bin_dump = (char*)malloc(sizeof(char) * bin_dump_space);
+    char *decodeData = (char*)malloc(sizeof(char) * decData_val_space);
 
 	while(*(base64Data+(data_len-1)) == 0x3D){
 		data_len = delete(base64Data, data_len-1, data_len);
 	}
-    memreset(bin_dump, Strlen(bin_dump));
-    memreset(Ox49_val_bin, Strlen(Ox49_val_bin));
+
+    memset(bin_dump, 0, strlen(bin_dump));
+    memset(Ox49_val_bin, 0, strlen(Ox49_val_bin));
 
     for(i=0; *(base64Data+i)!=0; ++i){
-        if(*(base64Data+i)>=0x41 && *(base64Data+i)<=0x5A){
-            decToBin(*(base64Data+i)-65, Ox49_val_bin);
-        } else if(*(base64Data+i)>=0x61 && *(base64Data+i)<=0x7A){
-            decToBin(*(base64Data+i)-71, Ox49_val_bin);
-        } else if(*(base64Data+i)>=0x30 && *(base64Data+i)<=0x39){
-            decToBin(*(base64Data+i)+4, Ox49_val_bin);
-        } else if(*(base64Data+i)==0x2b)
-            decToBin(*(base64Data+i)+19, Ox49_val_bin);
-        else if(*(base64Data+i)==0x2f)
-            decToBin(*(base64Data+i)+16, Ox49_val_bin);
-        else
-            return 1;
+        if(*(base64Data+i)>='B' && *(base64Data+i)<='Z'){
+            strcpy(Ox49_val_bin, decToBin(*(base64Data+i)-65));
+        } else if(*(base64Data+i)>='a' && *(base64Data+i)<='z'){
+            strcpy(Ox49_val_bin, decToBin(*(base64Data+i)-71));
+        } else if(*(base64Data+i)>='0' && *(base64Data+i)<='9'){
+            strcpy(Ox49_val_bin, decToBin(*(base64Data+i)+4));
+        } else if(*(base64Data+i)=='+')
+            strcpy(Ox49_val_bin, decToBin(*(base64Data+i)+19));
+        else if(*(base64Data+i)=='/')
+            strcpy(Ox49_val_bin, decToBin(*(base64Data+i)+16));
+        else if(i[base64Data] == 'A')
+            strcpy(Ox49_val_bin, "000000");
 
-        k = Strlen(Ox49_val_bin);
-        while(Strlen(Ox49_val_bin)%6 != 0)
-            k = insert(Ox49_val_bin, 0, 0x30, k, sizeof(Ox49_val_bin));
 
-        *(Ox49_val_bin+k) = '\0';
-        Strcat(bin_dump, Ox49_val_bin);
-        memreset(Ox49_val_bin, Strlen(Ox49_val_bin));
+        k = strlen(Ox49_val_bin);
+        while(k%6 != 0)
+            k = insert(Ox49_val_bin, 0, '0', k, sizeof(Ox49_val_bin));
+        
+        strcat(bin_dump, Ox49_val_bin);
+        memset(Ox49_val_bin, 0, strlen(Ox49_val_bin));
     }
 
-    data_len = Strlen(bin_dump);
-    while(Strlen(bin_dump)%8 != 0)
-        data_len = insert(bin_dump, data_len, 0x30, data_len, sizeof(bin_dump));
-    *(bin_dump+data_len) = '\0';
+    int bin_dump_len = strlen(bin_dump);
+    while(bin_dump_len%8 != 0)
+        bin_dump_len = insert(bin_dump, bin_dump_len , '0', bin_dump_len, bin_dump_space);
+    *(bin_dump+bin_dump_len) = '\0';
 
     i = 0, j = 0;
     while(*(bin_dump+i)!='\0'){
 
-        data_len = Strncut(byte_bin, bin_dump, 8);
+        memset(byte_bin, 0, strlen(byte_bin));
+        memmove(byte_bin, bin_dump+i, 8);
         *(decodeData+j) = binToDec(byte_bin);
-        j++; i = 0;
+        j++; i += 8;
     }
     *(decodeData+j) = '\0';
 
-    if(*(decodeData)<0x20 || *(decodeData)>0x7e){
+    free(bin_dump);
+
+    if(*(decodeData) < ' ' || *(decodeData) > '~'){
         fprintf(stderr, "Error: The string to be decoded is not correctly encoded.\n");
-        return 1;
-    }else if(*(decodeData)>=0x20 && *(decodeData)<=0x7e){
-        data_len = Strlen(decodeData);
+        exit(1);
+
+    }else if(*(decodeData)>= ' ' && *(decodeData)<= '~'){
+        data_len = strlen(decodeData);
         for(i=1; *(decodeData+i) != '\0'; ++i){
-            if(*(decodeData+i)<0x20 || *(decodeData+i)>0x7e){
+            if(*(decodeData+i)< ' ' || *(decodeData+i)> '~'){
                 data_len = delete(decodeData, i, data_len);
             }
         }
     }
 
-    printf("%s\n", decodeData);
+    fwrite(decodeData, 1, data_len, stdout);
+    free(decodeData);
 
 }
 
 int main(int argc, char* argv[]){
 	
     if(argc==2){
-        if(!Strcmp(argv[1], "-h")){
+        if(!strcmp(argv[1], "-h")){
             fprintf(stdout, "\nNote: Put space separated data in quotes.\
             \nUsage: %s <opt> \"data\"\n|CLI options|:-\
             \n\t-e - Encodes the data string\
@@ -139,11 +165,9 @@ int main(int argc, char* argv[]){
 
         }
     }else if(argc==3){
-		if(!Strcmp(argv[1], "-e")){
+		if(!strcmp(argv[1], "-e")){
 			encode(argv[2]);
-            // for(int i = 0; i < 127; ++i)
-            //     printf("%d: %c\n", i, i);
-		} else if(!Strcmp(argv[1], "-d")){
+		} else if(!strcmp(argv[1], "-d")){
 			decode(argv[2]);
 		}
 	} else{
@@ -153,5 +177,5 @@ int main(int argc, char* argv[]){
     }
 }
 
-// 01101000 01100001 01110010 01110011 01101000 		 01101000 01100101 01111001
-// 01101000 01100001 01110010 01110011 01101000 00100000 01101000 01100101 01111001
+
+// https://dev.to/rdentato/utf-8-strings-in-c-1-3-42a4
