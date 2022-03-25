@@ -1,12 +1,5 @@
-int Strlen(const char* string){
-    
-    int len = 0;
-    while (*string != '\0'){
-        len++;
-        string++;
-    }
-    return len;    
-}
+#include<string.h>
+
 
 int power(int base, int p){ //this user defined function takes a number and power vaue and returns base^p
    int result = 1;
@@ -22,6 +15,7 @@ int power(int base, int p){ //this user defined function takes a number and powe
    }
 }
 
+
 int delete(char*data, int index, int length){
 
     int i;
@@ -34,59 +28,25 @@ int delete(char*data, int index, int length){
 
 }
 
-char *Strcpy(char* destination, char* source){
-   
-   int i;
-   for(i = 0; *(source+i) != '\0'; i++)
-      *(destination+i) = *(source+i);
 
-   *(destination+i) = '\0';
+void reverse(char*str){
    
-   return destination;
-   
+   int len = 0, temp;
+   char*ptr = str;
+   while(*ptr != '\0'){
+      len++;
+      ptr++;
+   }
+   int i = 0, j = len-1;
+   while(i < j){
+      temp  = *(str+i);
+      *(str+i) = *(str+j);
+      *(str+j) = temp;
+      ++i;
+      --j;
+   }
 }
 
-void Strcat(char* string1, const char* string2){
-
-   int i, j;
-
-    for(i = Strlen(string1), j = 0;j < Strlen(string2); i++, j++)
-        *(string1+i) = *(string2+j);            
-    *(string1+i) = '\0';
-
-}
-
-int Strcmp(const char* string1, const char* string2){
-
-   int len_string1 = Strlen(string1);
-   int len_string2 = Strlen(string2);
-
-   if((len_string1 - len_string2) == 0){
-      for(int i = 0; i < len_string1; i++){
-         if(*(string1+i) == *(string2+i))
-            len_string2--;         
-      }
-      if(len_string2 == 0)
-         return 0;
-      else
-         return 1;
-   } else{
-      return 1;
-      }
-}
-
-int Strncut(char* destination, char* source, int ncut){
-   
-   int i, len;
-   for(i = 0; i < ncut; i++){
-      *(destination+i) = *source;
-        len = delete(source, 0, Strlen(source));
-    }
-   *(destination+i) = '\0';
-   
-   return len;
-   
-}
 
 int insert(char*data, int index, int element, int uSize, int tSize){
 
@@ -102,6 +62,7 @@ int insert(char*data, int index, int element, int uSize, int tSize){
     return uSize;
 }
 
+
 int binToDec(char* binary){ // function to convert binary value to decimal value
     
     int i = 0, j, k;
@@ -115,28 +76,51 @@ int binToDec(char* binary){ // function to convert binary value to decimal value
 
 }
 
-void decToBin(int n, char*out){ 
+
+char* decToBin(int n){ 
     
     unsigned int dec = n;
-    int binary[50]; 
-    int i = 0, k = Strlen(out); 
+    char binary[20]; 
+    int i = 0;
 
     while(dec){ 
 
         int remain = dec % 2; 
-        binary[i++] = remain; 
+        binary[i++] = remain+48; 
         dec = dec/2; 
     }
-    for(int j = i-1; j >= 0; j--, k++)
-        out[k] = binary[j]+48;
 
-    out[k] = '\0';
+    binary[i] = '\0';
 
-}
+    reverse(binary);
+    return strdup(binary);
+    
+}   
 
-void memreset(char*data, int len){
-   int val = 0;
-   for(int i = 0; i < len; i++){
-      *(data+i) = val;
-   }
+
+char *basename(char const *path) {
+
+    auto char *win_basename_parser(char const *);
+    auto char *unix_basename_parser(char const *);
+    
+    char *win_basename_parser(char const *path) {
+        char *s = strrchr(path, '\\');
+        if(!s) 
+            return strdup(path);
+        else 
+            return strdup(s + 1);
+    }
+
+    char *unix_basename_parser(char const *path) {
+        char *s = strrchr(path, '/');
+        if(!s) 
+            return strdup(path);
+        else 
+            return strdup(s + 1);
+    }
+
+    if(strcmp(path, unix_basename_parser(path)))
+        return strdup(unix_basename_parser(path));
+
+    return strdup(win_basename_parser(path));
 }
