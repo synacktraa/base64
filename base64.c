@@ -24,7 +24,7 @@ void encode(char*string){
     char *base64_val = (char*)malloc(sizeof(char) * base64_val_space);
     char *bin_dump = (char*)malloc(sizeof(char) * bin_dump_space);
 
-    int i, j, k, bin_dump_len, ascii_val;
+    int i, j, k, bin_dump_len;
     
     memset(Ox49_val_bin, 0, Strlen(Ox49_val_bin));
     memset(bin_dump, 0, Strlen(bin_dump));
@@ -50,7 +50,7 @@ void encode(char*string){
 
         memset(six_bit_bin, 0, Strlen(six_bit_bin));
         memmove(six_bit_bin, bin_dump+i, 6);
-        ascii_val = binToDec(six_bit_bin);
+        int ascii_val = binToDec(six_bit_bin);
 
         if(ascii_val>=0 && ascii_val<=25)
             base64_val[j] = ascii_val+65;
@@ -80,7 +80,7 @@ void encode(char*string){
 
 void decode(char*base64_data){
 
-	int i, j, k, data_len = Strlen(base64_data);
+	int i, j, data_len = Strlen(base64_data);
 
     int decData_val_space = (data_len+2)-(0.15*data_len);
     int bin_dump_space = (data_len * 6)+1;
@@ -111,7 +111,7 @@ void decode(char*base64_data){
             strcpy(Ox49_val_bin, "000000");
 
 
-        k = Strlen(Ox49_val_bin);
+        int k = Strlen(Ox49_val_bin);
         while(k%6 != 0)
             k = insert(Ox49_val_bin, 0, '0', k, sizeof(Ox49_val_bin));
         
