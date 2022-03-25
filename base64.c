@@ -1,5 +1,5 @@
 //=================================================_
-//  Base64 Encoding and Decoding Algorithm         |_ 
+//   Base64 Encoding and Decoding Tool             |_ 
 //      Author: SynActktraa [Mikey]                 |_
 // (Cli Wizard) base64 algorithm implemented in C.   |_
 //     © This tool is based on ASCII charset.         |_
@@ -29,7 +29,7 @@ void encode(char*string){
     memset(Ox49_val_bin, 0, strlen(Ox49_val_bin));
     memset(bin_dump, 0, strlen(bin_dump));
 
-    for(i=0; *(string+i) != '\0'; ++i){
+    for(i=0; i[string] != '\0'; ++i){
         strcpy(Ox49_val_bin, decToBin(i[string]));
 		while(strlen(Ox49_val_bin)%8 != 0){
 
@@ -46,7 +46,7 @@ void encode(char*string){
         bin_dump_len = insert(bin_dump, bin_dump_len, '0', bin_dump_len, strlen(bin_dump)+1);
 
     i = 0, j = 0;   
-    while(*(bin_dump+i)!='\0'){
+    while(i[bin_dump]!='\0'){
 
         memset(six_bit_bin, 0, strlen(six_bit_bin));
         memmove(six_bit_bin, bin_dump+i, 6);
@@ -78,9 +78,9 @@ void encode(char*string){
 
 }
 
-void decode(char*base64Data){
+void decode(char*base64_data){
 
-	int i, j, k, data_len = strlen(base64Data);
+	int i, j, k, data_len = strlen(base64_data);
 
     int decData_val_space = (data_len+2)-(0.15*data_len);
     int bin_dump_space = (data_len * 6)+1;
@@ -89,25 +89,25 @@ void decode(char*base64Data){
     char *bin_dump = (char*)malloc(sizeof(char) * bin_dump_space);
     char *decodeData = (char*)malloc(sizeof(char) * decData_val_space);
 
-	while(*(base64Data+(data_len-1)) == 0x3D){
-		data_len = delete(base64Data, data_len-1, data_len);
+	while(*(base64_data+(data_len-1)) == 0x3D){
+		data_len = delete(base64_data, data_len-1, data_len);
 	}
 
     memset(bin_dump, 0, strlen(bin_dump));
     memset(Ox49_val_bin, 0, strlen(Ox49_val_bin));
 
-    for(i=0; *(base64Data+i)!=0; ++i){
-        if(*(base64Data+i)>='B' && *(base64Data+i)<='Z'){
-            strcpy(Ox49_val_bin, decToBin(*(base64Data+i)-65));
-        } else if(*(base64Data+i)>='a' && *(base64Data+i)<='z'){
-            strcpy(Ox49_val_bin, decToBin(*(base64Data+i)-71));
-        } else if(*(base64Data+i)>='0' && *(base64Data+i)<='9'){
-            strcpy(Ox49_val_bin, decToBin(*(base64Data+i)+4));
-        } else if(*(base64Data+i)=='+')
-            strcpy(Ox49_val_bin, decToBin(*(base64Data+i)+19));
-        else if(*(base64Data+i)=='/')
-            strcpy(Ox49_val_bin, decToBin(*(base64Data+i)+16));
-        else if(i[base64Data] == 'A')
+    for(i=0; i[base64_data]!=0; ++i){
+        if(i[base64_data]>='B' && i[base64_data]<='Z'){
+            strcpy(Ox49_val_bin, decToBin(i[base64_data]-65));
+        } else if(i[base64_data]>='a' && i[base64_data]<='z'){
+            strcpy(Ox49_val_bin, decToBin(i[base64_data]-71));
+        } else if(i[base64_data]>='0' && i[base64_data]<='9'){
+            strcpy(Ox49_val_bin, decToBin(i[base64_data]+4));
+        } else if(i[base64_data]=='+')
+            strcpy(Ox49_val_bin, decToBin(i[base64_data]+19));
+        else if(i[base64_data]=='/')
+            strcpy(Ox49_val_bin, decToBin(i[base64_data]+16));
+        else if(i[base64_data] == 'A')
             strcpy(Ox49_val_bin, "000000");
 
 
@@ -125,14 +125,14 @@ void decode(char*base64Data){
     *(bin_dump+bin_dump_len) = '\0';
 
     i = 0, j = 0;
-    while(*(bin_dump+i)!='\0'){
+    while(i[bin_dump]!='\0'){
 
         memset(byte_bin, 0, strlen(byte_bin));
         memmove(byte_bin, bin_dump+i, 8);
-        *(decodeData+j) = binToDec(byte_bin);
+        j[decodeData] = binToDec(byte_bin);
         j++; i += 8;
     }
-    *(decodeData+j) = '\0';
+    j[decodeData] = '\0';
 
     free(bin_dump);
 
@@ -142,8 +142,8 @@ void decode(char*base64Data){
 
     } else {
         data_len = strlen(decodeData);
-        for(i=1; *(decodeData+i) != '\0'; ++i){
-            if(*(decodeData+i)< ' ' || *(decodeData+i)> '~'){
+        for(i=1; i[decodeData] != '\0'; ++i){
+            if(i[decodeData]< ' ' || i[decodeData]> '~'){
                 data_len = delete(decodeData, i, data_len);
             }
         }
@@ -159,9 +159,9 @@ int main(int argc, char* argv[]){
     if(argc==2){
         if(!strcmp(argv[1], "-h")){
             fprintf(stdout, "\nNote: Put space separated data in quotes.\
-            \nUsage: %s <opt> \"data\"\n|CLI options|:-\
+            \nUsage: %s -e/-d <data>\n|CLI options|:-\
             \n\t-e - Encodes the data string\
-            \n\t-d - Decodes the data string\n\n", basename(argv[0]));
+            \n\t-d - Decodes the data string\n", basename(argv[0]));
 
         }
     }else if(argc==3){
@@ -171,7 +171,7 @@ int main(int argc, char* argv[]){
 			decode(argv[2]);
 		}
 	} else{
-        fprintf(stderr, "\nUsage: %s <opt> \"data\"\
+        fprintf(stderr, "\nUsage: %s -e/-d <data>\
         \nFor more, check help section:\
         \n    %s -h\n\n", basename(argv[0]), basename(argv[0]));
     }
