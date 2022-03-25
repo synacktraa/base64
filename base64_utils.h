@@ -7,6 +7,7 @@ int insert(char*data, int index, int element, int uSize, int tSize);
 int delete(char*data, int index, int len);
 void reverse(char*str);
 int power(int base, int exp);
+int Strlen(const char* string);
 char* decToBin(int dec);
 int binToDec(char* bin);
 char *basename(char const *path);
