@@ -96,18 +96,18 @@ void decode(char*base64_data){
     memset(bin_dump, 0, Strlen(bin_dump));
     memset(Ox49_val_bin, 0, Strlen(Ox49_val_bin));
 
-    for(i=0; i[base64_data]!=0; ++i){
-        if(i[base64_data]>='B' && i[base64_data]<='Z'){
-            strcpy(Ox49_val_bin, decToBin(i[base64_data]-65));
-        } else if(i[base64_data]>='a' && i[base64_data]<='z'){
-            strcpy(Ox49_val_bin, decToBin(i[base64_data]-71));
-        } else if(i[base64_data]>='0' && i[base64_data]<='9'){
-            strcpy(Ox49_val_bin, decToBin(i[base64_data]+4));
-        } else if(i[base64_data]=='+')
-            strcpy(Ox49_val_bin, decToBin(i[base64_data]+19));
-        else if(i[base64_data]=='/')
-            strcpy(Ox49_val_bin, decToBin(i[base64_data]+16));
-        else if(i[base64_data] == 'A')
+    for(i=0; base64_data[i]!=0; ++i){
+        if(base64_data[i]>='B' && base64_data[i]<='Z'){
+            strcpy(Ox49_val_bin, decToBin(base64_data[i]-65));
+        } else if(base64_data[i]>='a' && base64_data[i]<='z'){
+            strcpy(Ox49_val_bin, decToBin(base64_data[i]-71));
+        } else if(base64_data[i]>='0' && base64_data[i]<='9'){
+            strcpy(Ox49_val_bin, decToBin(base64_data[i]+4));
+        } else if(base64_data[i]=='+')
+            strcpy(Ox49_val_bin, decToBin(base64_data[i]+19));
+        else if(base64_data[i]=='/')
+            strcpy(Ox49_val_bin, decToBin(base64_data[i]+16));
+        else if(base64_data[i] == 'A')
             strcpy(Ox49_val_bin, "000000");
 
 
@@ -125,14 +125,14 @@ void decode(char*base64_data){
     *(bin_dump+bin_dump_len) = '\0';
 
     i = 0, j = 0;
-    while(i[bin_dump]!='\0'){
+    while(bin_dump[i]!='\0'){
 
         memset(byte_bin, 0, Strlen(byte_bin));
         memmove(byte_bin, bin_dump+i, 8);
         decodeData[j] = binToDec(byte_bin);
         j++; i += 8;
     }
-    j[decodeData] = '\0';
+    decodeData[j] = '\0';
 
     free(bin_dump);
 
@@ -142,8 +142,8 @@ void decode(char*base64_data){
 
     } else {
         data_len = Strlen(decodeData);
-        for(i=1; i[decodeData] != '\0'; ++i){
-            if(i[decodeData]< ' ' || i[decodeData]> '~'){
+        for(i=1; decodeData[i] != '\0'; ++i){
+            if(decodeData[i]< ' ' || decodeData[i]> '~'){
                 data_len = delete(decodeData, i, data_len);
             }
         }
