@@ -1,6 +1,6 @@
 # Base64 Conversion
 
->Base64 encoding and decoding algorithm implemented in C.
+>A cli tool based on Base64 algorithm to encode and decode data.
 
 ## Help:
 
@@ -35,4 +35,4 @@ Output:
 Hack Teh World
 ```
 ___
-<p align=center>&copy; This tool is based on UTF-8 charset.</p>
+<p align=center>&copy; This tool is based on ASCII charset.</p>
