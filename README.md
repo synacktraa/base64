@@ -8,8 +8,7 @@
 
 Output:
 
-```
-
+```bash
 Note: Put space separated data in quotes.
 Usage: ./base_64 -e/-d <data>
 |CLI options|:-
