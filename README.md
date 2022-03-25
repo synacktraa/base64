@@ -38,5 +38,5 @@ Output:
 ```bash
 Star this project :), it boosts my ego.
 ```
-___
+---
 <p align=center>&copy; This tool is based on ASCII charset.</p>
