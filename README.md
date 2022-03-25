@@ -1,4 +1,4 @@
-# Base64 Conversion
+# Base64 Conversion | <img src="https://app.codacy.com/project/badge/Grade/939d7a865e4743b4acd7c06faef5f12e"/> |
 
 >A cli tool based on Base64 algorithm to encode and decode data.
 
