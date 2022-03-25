@@ -140,7 +140,7 @@ void decode(char*base64Data){
         fprintf(stderr, "Error: The string to be decoded is not correctly encoded.\n");
         exit(1);
 
-    }else if(*(decodeData)>= ' ' && *(decodeData)<= '~'){
+    } else {
         data_len = strlen(decodeData);
         for(i=1; *(decodeData+i) != '\0'; ++i){
             if(*(decodeData+i)< ' ' || *(decodeData+i)> '~'){
