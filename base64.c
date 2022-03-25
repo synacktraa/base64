@@ -14,7 +14,7 @@
 
 void encode(char*string){
 
-    int string_len = strlen(string);
+    int string_len = Strlen(string);
 
     int base64_val_space = (0.4*(string_len+1))+string_len+2;
     int bin_dump_space = (string_len * 8)+1;
@@ -26,29 +26,29 @@ void encode(char*string){
 
     int i, j, k, bin_dump_len, ascii_val;
     
-    memset(Ox49_val_bin, 0, strlen(Ox49_val_bin));
-    memset(bin_dump, 0, strlen(bin_dump));
+    memset(Ox49_val_bin, 0, Strlen(Ox49_val_bin));
+    memset(bin_dump, 0, Strlen(bin_dump));
 
-    for(i=0; i[string] != '\0'; ++i){
-        strcpy(Ox49_val_bin, decToBin(i[string]));
-		while(strlen(Ox49_val_bin)%8 != 0){
+    for(i=0; string[i] != '\0'; ++i){
+        strcpy(Ox49_val_bin, decToBin(string[i]));
+		while(Strlen(Ox49_val_bin)%8 != 0){
 
-        	k = insert(Ox49_val_bin, 0, '0', strlen(Ox49_val_bin), strlen(Ox49_val_bin)+1);
+        	k = insert(Ox49_val_bin, 0, '0', Strlen(Ox49_val_bin), Strlen(Ox49_val_bin)+1);
         	Ox49_val_bin[k] = '\0';
     }   
         strcat(bin_dump, Ox49_val_bin);
-        memset(Ox49_val_bin, 0, strlen(Ox49_val_bin));
+        memset(Ox49_val_bin, 0, Strlen(Ox49_val_bin));
 
     }
 
-    bin_dump_len = strlen(bin_dump);
+    bin_dump_len = Strlen(bin_dump);
     while(bin_dump_len%6 != 0)
-        bin_dump_len = insert(bin_dump, bin_dump_len, '0', bin_dump_len, strlen(bin_dump)+1);
+        bin_dump_len = insert(bin_dump, bin_dump_len, '0', bin_dump_len, Strlen(bin_dump)+1);
 
     i = 0, j = 0;   
     while(i[bin_dump]!='\0'){
 
-        memset(six_bit_bin, 0, strlen(six_bit_bin));
+        memset(six_bit_bin, 0, Strlen(six_bit_bin));
         memmove(six_bit_bin, bin_dump+i, 6);
         ascii_val = binToDec(six_bit_bin);
 
@@ -70,17 +70,17 @@ void encode(char*string){
 
     free(bin_dump);
 
-    while(strlen(base64_val)%4 != 0)
-        insert(base64_val, strlen(base64_val), 0x3d, strlen(base64_val), base64_val_space);
+    while(Strlen(base64_val)%4 != 0)
+        insert(base64_val, Strlen(base64_val), 0x3d, Strlen(base64_val), base64_val_space);
 
-    fwrite(base64_val, 1, strlen(base64_val), stdout);
+    fwrite(base64_val, 1, Strlen(base64_val), stdout);
     free(base64_val); 
 
 }
 
 void decode(char*base64_data){
 
-	int i, j, k, data_len = strlen(base64_data);
+	int i, j, k, data_len = Strlen(base64_data);
 
     int decData_val_space = (data_len+2)-(0.15*data_len);
     int bin_dump_space = (data_len * 6)+1;
@@ -93,8 +93,8 @@ void decode(char*base64_data){
 		data_len = delete(base64_data, data_len-1, data_len);
 	}
 
-    memset(bin_dump, 0, strlen(bin_dump));
-    memset(Ox49_val_bin, 0, strlen(Ox49_val_bin));
+    memset(bin_dump, 0, Strlen(bin_dump));
+    memset(Ox49_val_bin, 0, Strlen(Ox49_val_bin));
 
     for(i=0; i[base64_data]!=0; ++i){
         if(i[base64_data]>='B' && i[base64_data]<='Z'){
@@ -111,15 +111,15 @@ void decode(char*base64_data){
             strcpy(Ox49_val_bin, "000000");
 
 
-        k = strlen(Ox49_val_bin);
+        k = Strlen(Ox49_val_bin);
         while(k%6 != 0)
             k = insert(Ox49_val_bin, 0, '0', k, sizeof(Ox49_val_bin));
         
         strcat(bin_dump, Ox49_val_bin);
-        memset(Ox49_val_bin, 0, strlen(Ox49_val_bin));
+        memset(Ox49_val_bin, 0, Strlen(Ox49_val_bin));
     }
 
-    int bin_dump_len = strlen(bin_dump);
+    int bin_dump_len = Strlen(bin_dump);
     while(bin_dump_len%8 != 0)
         bin_dump_len = insert(bin_dump, bin_dump_len , '0', bin_dump_len, bin_dump_space);
     *(bin_dump+bin_dump_len) = '\0';
@@ -127,7 +127,7 @@ void decode(char*base64_data){
     i = 0, j = 0;
     while(i[bin_dump]!='\0'){
 
-        memset(byte_bin, 0, strlen(byte_bin));
+        memset(byte_bin, 0, Strlen(byte_bin));
         memmove(byte_bin, bin_dump+i, 8);
         decodeData[j] = binToDec(byte_bin);
         j++; i += 8;
@@ -141,7 +141,7 @@ void decode(char*base64_data){
         exit(1);
 
     } else {
-        data_len = strlen(decodeData);
+        data_len = Strlen(decodeData);
         for(i=1; i[decodeData] != '\0'; ++i){
             if(i[decodeData]< ' ' || i[decodeData]> '~'){
                 data_len = delete(decodeData, i, data_len);
