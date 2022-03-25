@@ -11,28 +11,28 @@ Output:
 ```
 
 Note: Put space separated data in quotes.
-Usage: base_64 <opt> "data"
+Usage: ./base_64 -e/-d <data>
 |CLI options|:-
-        -e - Encodes the data string
-        -d - Decodes the data string
+        -e - encodes the data string
+        -d - decodes the encoded data
 ```
 ---
 ## Encoding:
 ```powershell
-base_64 -e "Hack Teh World"
+./base_64.exe -e "Mom spaghetti"
 ```
 Output:
 ```
-SGFjayBUZWggV29ybGQ=
+TW9tIHNwYWdoZXR0aQ==
 ```
 ---
 ## Decoding:
 ```powershell
-base_64 -d "SGFjayBUZWggV29ybGQ="
+./base_64 -d "U3RhciB0aGlzIHByb2plY3QgOiksIGl0IGJvb3N0cyBteSBlZ28u"
 ```
 Output:
 ```
-Hack Teh World
+Star this project :), it boosts my ego.
 ```
 ___
 <p align=center>&copy; This tool is based on ASCII charset.</p>
