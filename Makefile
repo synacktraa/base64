@@ -14,4 +14,12 @@ base_64: base64.o base64_utils.o
 	$(BIN) $(CFLAGS) $^ -o $@
 
 clean:
-	rm *.o base_64
+
+ifeq ($(OS),Windows_NT)
+	del *.o base_64.exe *.gch 
+else
+	CHECK := $(shell uname)
+	ifeq ($(CHECK), Linux)
+		rm *.o base_64 *.gch
+	endif
+endif
