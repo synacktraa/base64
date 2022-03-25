@@ -42,7 +42,7 @@ int delete(char*data, int index, int length){
 
 void reverse(char*str){
    
-   int len = 0, temp;
+   int len = 0;
    char*ptr = str;
    while(*ptr != '\0'){
       len++;
@@ -50,7 +50,7 @@ void reverse(char*str){
    }
    int i = 0, j = len-1;
    while(i < j){
-      temp  = *(str+i);
+      int temp  = *(str+i);
       *(str+i) = *(str+j);
       *(str+j) = temp;
       ++i;
