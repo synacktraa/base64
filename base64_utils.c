@@ -16,6 +16,17 @@ int power(int base, int p){ //this user defined function takes a number and powe
 }
 
 
+int Strlen(const char* string){
+    
+    int len = 0;
+    while (*string != '\0'){
+        len++;
+        string++;
+    }
+    return len;    
+}
+
+
 int delete(char*data, int index, int length){
 
     int i;
