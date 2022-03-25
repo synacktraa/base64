@@ -2,7 +2,7 @@
 
 >A cli tool based on Base64 algorithm to encode and decode data.
 
-## Help:
+## Help
 
 >```base_64 -h```
 
@@ -17,19 +17,23 @@ Usage: ./base_64 -e/-d <data>
         -d - decodes the encoded data
 ```
 ---
-## Encoding:
-```powershell
+## Encoding
+
+```bash
 ./base_64.exe -e "Mom spaghetti"
 ```
 Output:
-```
+
+```bash
 TW9tIHNwYWdoZXR0aQ==
 ```
 ---
-## Decoding:
-```powershell
+## Decoding
+
+```bash
 ./base_64 -d "U3RhciB0aGlzIHByb2plY3QgOiksIGl0IGJvb3N0cyBteSBlZ28u"
-```
+
+```bash
 Output:
 ```
 Star this project :), it boosts my ego.
