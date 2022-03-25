@@ -129,7 +129,7 @@ void decode(char*base64_data){
 
         memset(byte_bin, 0, strlen(byte_bin));
         memmove(byte_bin, bin_dump+i, 8);
-        j[decodeData] = binToDec(byte_bin);
+        decodeData[j] = binToDec(byte_bin);
         j++; i += 8;
     }
     j[decodeData] = '\0';
