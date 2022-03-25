@@ -161,7 +161,7 @@ int main(int argc, char* argv[]){
             fprintf(stdout, "\nNote: Put space separated data in quotes.\
             \nUsage: %s <opt> \"data\"\n|CLI options|:-\
             \n\t-e - Encodes the data string\
-            \n\t-d - Decodes the data string\n\n", argv[0]);
+            \n\t-d - Decodes the data string\n\n", basename(argv[0]));
 
         }
     }else if(argc==3){
@@ -173,7 +173,7 @@ int main(int argc, char* argv[]){
 	} else{
         fprintf(stderr, "\nUsage: %s <opt> \"data\"\
         \nFor more, check help section:\
-        \n    %s -h\n\n", argv[0], argv[0]);
+        \n    %s -h\n\n", basename(argv[0]), basename(argv[0]));
     }
 }
 
