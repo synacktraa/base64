@@ -10,6 +10,9 @@ int power(int base, int exp);
 int Strlen(const char* string);
 char* decToBin(int dec);
 int binToDec(char* bin);
+int charValidate(char ch);
+int base64Validate(char b64ed);
+int get_filesize(char file_name[]);
 char *basename(char const *path);
 
 #endif
