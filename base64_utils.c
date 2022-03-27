@@ -1,3 +1,4 @@
+#include<stdio.h>
 #include<string.h>
 
 
@@ -107,6 +108,40 @@ char* decToBin(int n){
     return strdup(binary);
     
 }   
+
+
+int charValidate(char ch) {
+
+    if(ch < 0 || ch > 126)
+        return -1;
+    return 0;
+}
+
+
+int base64Validate(char b64ec) {
+    
+    if(b64ec < 43 || b64ec > 126 || (b64ec >= 44 && b64ec <47))
+        return -1;
+    if((b64ec > 57 && b64ec < 65) || (b64ec > 90 && b64ec < 97))
+        return -1;
+    if(b64ec > 122 && b64ec < 126)
+        return -1;
+    return 0;
+}
+
+
+int get_filesize(char file_name[]){
+
+    FILE* fp = fopen(file_name, "r");
+    if (fp == NULL) {
+        return -1;
+    }
+    fseek(fp, 0L, SEEK_END);
+    int res = ftell(fp);
+    fclose(fp);
+  
+    return res;
+}
 
 
 char *basename(char const *path) {
