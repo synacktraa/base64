@@ -1,6 +1,6 @@
 # Base64 Converter | <a href="https://www.codacy.com/gh/SynAcktraa/base64-Converter/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=SynAcktraa/base64-Converter&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/939d7a865e4743b4acd7c06faef5f12e"/></a> |
 
->A cli tool based on Base64 algorithm to encode and decode data.
+>A cli tool based on base64 algorithm to encode and decode data.
 
 ## Help
 
