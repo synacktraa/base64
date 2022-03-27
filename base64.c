@@ -44,13 +44,13 @@ void encode(char*data, char*md){
     } else if( !strcmp(md, "-i") ) {
         plaintext = data;
 
-    } 
+    } else plaintext = "";
     buffer_len = Strlen(plaintext);
 
     int base64_val_space = (0.4*(buffer_len+1))+buffer_len+2;
     int bin_dump_space = (buffer_len * 8)+1;
 
-    char six_bit_bin[6], Ox49_val_bin[9]; 
+    char six_bit_bin[7], Ox49_val_bin[9]; 
 
     char *base64_val = (char*)malloc(sizeof(char) * base64_val_space);
     char *bin_dump = (char*)malloc(sizeof(char) * bin_dump_space);
@@ -131,13 +131,13 @@ void decode(char*data, char*md){
     } else if( !strcmp(md, "-i") ) {
         base64_data = data;
 
-    } 
+    }  else base64_data = "";
 
     buffer_len = Strlen(base64_data);
     int decData_val_space = (buffer_len+2)-(0.15*buffer_len);
     int bin_dump_space = (buffer_len * 6)+1;
 
-    char Ox49_val_bin[9], byte_bin[8];
+    char Ox49_val_bin[9], byte_bin[9];
     char *bin_dump = (char*)malloc(sizeof(char) * bin_dump_space);
     char *decodeData = (char*)malloc(sizeof(char) * decData_val_space);
 
