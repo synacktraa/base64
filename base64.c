@@ -1,6 +1,6 @@
 //=================================================_
 //      Base64 Encoding and Decoding Tool          |_ 
-//         Author: @SynActktraa [Mikey]              |_
+//         Author: @SynActktraa [Mikey]             |_
 //  (Cli Wizard) base64 algorithm implemented in C.  |_
 //      © This tool is based on ASCII charset.        |_
 //=======================================================
@@ -111,7 +111,6 @@ void encode(char*data, char*md, char ch, char* out){
             base64_val[j] = ascii_val-19;
         else if( ascii_val==63 )
             base64_val[j] = ascii_val-16;
-        // printf("%d ", base64_val[j]);
         j++; i += 6;
 
     }
@@ -149,6 +148,7 @@ void decode(char*data, char*md, char ch, char* out){
     }  else base64_data = "";
 
     buffer_len = Strlen(base64_data);
+    
     int decData_val_space = (buffer_len+2)-(0.15*buffer_len);
     int bin_dump_space = (buffer_len * 6)+1;
 
