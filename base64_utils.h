@@ -13,6 +13,7 @@ int binToDec(char* bin);
 int charValidate(char ch);
 int base64Validate(char b64ed);
 int get_filesize(char file_name[]);
+int checkIfFileExists(const char * filename);
 char *basename(char const *path);
 
 #endif
