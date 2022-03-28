@@ -9,14 +9,14 @@
 Output:
 
 ```terminal
-
 *IMP*: Put space separated data in quotes.
-Usage: base_64.exe -e/-d -i/-f <data>/<file>
 |CLI options|:-
         -e - Encodes the data string
         -d - Decodes the data string
         -i - takes next argument as data string
         -f - takes next argument as filename
+        -o - takes next argument as filename and saves the output in file
+             (if filename is not given, it defaults to base64Out)
 ```
 ---
 ## Encoding
