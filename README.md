@@ -4,33 +4,36 @@
 
 ## Help
 
->```base_64 -h```
+>`base_64 -h`
 
 Output:
 
 ```bash
-Note: Put space separated data in quotes.
-Usage: ./base_64 -e/-d <data>
+
+*Imp: Put space separated data in quotes.
+Usage: base_64.exe -e/-d -i/-f <data>/<file>
 |CLI options|:-
-        -e - encodes the data string
-        -d - decodes the encoded data
+        -e - Encodes the data string
+        -d - Decodes the data string
+        -i - takes next argument as data string
+        -f - takes next argument as filename
 ```
 ---
 ## Encoding
 
 ```bash
-./base_64.exe -e "Mom spaghetti"
+./base_64.exe -e -i "Base64 Converter"
 ```
 Output:
 
 ```bash
-TW9tIHNwYWdoZXR0aQ==
+QmFzZTY0IENvbnZlcnRlcg==
 ```
 ---
 ## Decoding
 
 ```bash
-./base_64 -d "U3RhciB0aGlzIHByb2plY3QgOiksIGl0IGJvb3N0cyBteSBlZ28u"
+./base_64 -d -i "U3RhciB0aGlzIHByb2plY3QgOiksIGl0IGJvb3N0cyBteSBlZ28u"
 
 ```
 
