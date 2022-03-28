@@ -210,7 +210,7 @@ void decode(char*data, char*md, char ch){
 
 int main(int argc, char* argv[]){
     
-    int ch;
+    int ch = 0;
     #ifdef _WIN32
         ch = 0;
     #elif __unix__
