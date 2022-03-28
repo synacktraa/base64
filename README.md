@@ -8,7 +8,7 @@
 
 Output:
 
-```bash
+```terminal
 
 *IMP*: Put space separated data in quotes.
 Usage: base_64.exe -e/-d -i/-f <data>/<file>
