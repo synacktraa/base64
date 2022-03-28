@@ -30,16 +30,36 @@ Output:
 QmFzZTY0IENvbnZlcnRlcg==
 ```
 ---
+
+```bash
+./base_64.exe -e -f infile
+```
+Output:
+
+```bash
+aHR0cHM6Ly9naXRodWIuY29tL1N5bkFja3RyYWE=
+```
+---
 ## Decoding
+```bash
+./base_64.exe -d -f encoded.txt
+```
+Output:
+
+```terminal
+small portable base64-converter in C.
+```
 
 ```bash
 ./base_64 -d -i "U3RhciB0aGlzIHByb2plY3QgOiksIGl0IGJvb3N0cyBteSBlZ28u"
 
 ```
-
 Output:
+
 ```bash
 Star this project :), it boosts my ego.
 ```
 ---
+
+
 <p align=center>&copy; This tool is based on ASCII charset.</p>
