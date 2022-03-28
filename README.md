@@ -42,7 +42,7 @@ aHR0cHM6Ly9naXRodWIuY29tL1N5bkFja3RyYWE=
 ---
 ## Decoding
 ```bash
-./base_64.exe -d -f encoded.txt
+./base_64.exe -d -f encoded
 ```
 Output:
 
