@@ -35,7 +35,7 @@ char* get_file_data(char*file, char ch) {
 }
 
 
-void encode(char*data, char*md, char ch){
+void encode(char*data, char*md, char ch, char* out){
 
     int buffer_len;
     char* plaintext;
@@ -63,12 +63,16 @@ void encode(char*data, char*md, char ch){
     memset(bin_dump, 0, Strlen(bin_dump));
 
     for( i=0; plaintext[i] != '\0'; ++i ) {
-
-        if( charValidate(plaintext[i]) == -1 ){
-            fprintf(stderr, "InputError: can't take non-ascii characters.");
-            putc(ch, stdout);
-            exit(1);
-        }
+        label:
+            if( charValidate(plaintext[i]) == -1 ){
+                fprintf(stderr, "InputError: can't take non-ascii characters.");
+                putc(ch, stdout);
+                exit(1);
+            }
+            if (plaintext[i] == 13){
+                delete(plaintext, i, Strlen(plaintext));
+                goto label;    
+            }
 
         strcpy(Ox49_val_bin, decToBin(plaintext[i]));
 		while( Strlen(Ox49_val_bin)%8 != 0 ){
@@ -93,7 +97,7 @@ void encode(char*data, char*md, char ch){
 
         memset(six_bit_bin, 0, Strlen(six_bit_bin));
         memmove(six_bit_bin, bin_dump+i, 6);
-        six_bit_bin[6] = 0;
+        // six_bit_bin[6] = 0;
 
         int ascii_val = binToDec(six_bit_bin);
 
@@ -107,6 +111,7 @@ void encode(char*data, char*md, char ch){
             base64_val[j] = ascii_val-19;
         else if( ascii_val==63 )
             base64_val[j] = ascii_val-16;
+        // printf("%d ", base64_val[j]);
         j++; i += 6;
 
     }
@@ -117,13 +122,19 @@ void encode(char*data, char*md, char ch){
     while( Strlen(base64_val)%4 != 0 )
         insert(base64_val, Strlen(base64_val), 0x3d, Strlen(base64_val), base64_val_space);
 
-    fwrite(base64_val, 1, Strlen(base64_val), stdout);
-    putc(ch, stdout);
+    if ( out == NULL ){
+        fwrite(base64_val, 1, Strlen(base64_val), stdout);
+        putc(ch, stdout);
+    } else {
+
+        FILE * fp = fopen(out, "w");
+        fputs(base64_val, fp);
+    }
     free(base64_val); 
 
 }
 
-void decode(char*data, char*md, char ch){
+void decode(char*data, char*md, char ch, char* out){
 
 	int i, j;
     int buffer_len;
@@ -202,48 +213,118 @@ void decode(char*data, char*md, char ch){
     decodeData[j] = '\0';
 
     free(bin_dump);
-    fwrite(decodeData, 1, Strlen(decodeData), stdout);
-    putc(ch, stdout);
+
+    if( out == NULL){
+        fwrite(decodeData, 1, Strlen(decodeData), stdout);
+        putc(ch, stdout);
+    } else {
+
+        FILE * fp = fopen(out, "w");
+        fputs(decodeData, fp);
+    }
     free(decodeData);
 
 }
 
 int main(int argc, char* argv[]){
     
-    int ch = 0;
+    char *store = "", *flag = "", *out = "";
+    int ch = 0, i = 0;
     #ifdef _WIN32
         ch = 0;
     #elif __unix__
         ch = 10;
     #endif
     
-    if ( argc==2 ) {
-        if(!strcmp(argv[1], "-h")){
+    int e_flag = 0, d_flag = 0, o_flag = 0, s_flag = 0;
+
+    if ( argc==2 && !strcmp(argv[1], "-h") ) {
             fprintf(stdout, "\n*IMP*: Put space separated data in quotes.\
             \nUsage: %s -e/-d -i/-f <data>/<file>\n|CLI options|:-\
             \n\t-e - Encodes the data string\
             \n\t-d - Decodes the data string\
             \n\t-i - takes next argument as data string\
-            \n\t-f - takes next argument as filename", basename(argv[0]));
+            \n\t-f - takes next argument as filename\
+            \n\t-o - takes next argument as filename and saves the output in file\
+            \n\t     (if filename is not given, it defaults to base64Out)", basename(argv[0]));
             putc(ch, stdout);
 
-        }
-    }else if ( argc == 4 ) {
-        if(!strcmp(argv[2], "-i") || !strcmp(argv[2], "-f")){
-            if(!strcmp(argv[1], "-e")){
-                encode(argv[3], argv[2], ch);
-            } else if(!strcmp(argv[1], "-d")){
-                decode(argv[3], argv[2], ch);
-            } else {
-                fprintf(stderr, "FlagError: '%s' is an invalid flag.", argv[1]);
-                putc(ch, stdout);
-                return 1;    
+    }else if ( argc >= 4 && argc <= 6 ) {
+
+        for(; i < argc; ++i){
+
+            if(!strcmp(argv[i], "-i") || !strcmp(argv[i], "-f")){
+                s_flag = 1;
+                flag = argv[i];
+                if( argv[i+1] == NULL ){
+                    fprintf(stderr, "InputError: no data or file detected");
+                    putc(ch, stdout);
+                    return 1;
+                }
+                store = argv[i+1];
             }
-        } else{
-            fprintf(stderr, "FlagError: '%s' is an invalid flag.", argv[2]);
+        }
+
+        if (s_flag == 0){
+
+            fprintf(stderr, "FlagError: data or file flag not detected");
             putc(ch, stdout);
             return 1;
         }
+
+        for(i = 0; i < argc; ++i) {
+            if(!strcmp(argv[i], "-e")){
+                e_flag += 1;
+            }
+        }
+
+        for(i = 0; i < argc; ++i) {
+            if(!strcmp(argv[i], "-d")){
+                d_flag += 1;
+            }
+        }
+
+        if(e_flag == 0 && d_flag == 0){
+
+            fprintf(stderr, "MethodError: conversion method not specified");
+            putc(ch, stdout);
+            return 1;
+        }
+        
+        if(e_flag > 1 || d_flag > 1){
+
+            fprintf(stderr, "FlagError: same flag repeated");
+            putc(ch, stdout);
+            return 1;
+        }
+
+        if(e_flag && d_flag){
+
+            fprintf(stderr, "MethodError: specify only one conversion method");
+            putc(ch, stdout);
+            return 1;
+        }
+
+        for( i = 0; i < argc; ++i) {
+            
+            if(!strcmp(argv[i], "-o")) {
+                o_flag = 1;
+                if( argv[i+1] == NULL ){
+                    out = "base64Out";
+                } else out = argv[i+1];
+                break;   
+            }
+        }
+
+        if(o_flag == 0) 
+            out = NULL;
+
+        if ( e_flag ) {
+            encode(store, flag, ch, out);
+        } else if ( d_flag ) {
+            decode(store, flag, ch, out);
+        }
+
 	} else {
         fprintf(stderr, "\nUsage: %s -e/-d -i/-f <data>/<file>\
         \nFor more, check help section:\
