@@ -22,7 +22,7 @@ Output:
 ## Encoding
 
 ```bash
-./base_64.exe -e -i "Base64 Converter"
+./base_64 -e -i "Base64 Converter"
 ```
 Output:
 
@@ -32,7 +32,7 @@ QmFzZTY0IENvbnZlcnRlcg==
 ---
 
 ```bash
-./base_64.exe -e -f infile
+./base_64 -e -f infile
 ```
 Output:
 
@@ -42,7 +42,7 @@ aHR0cHM6Ly9naXRodWIuY29tL1N5bkFja3RyYWE=
 ---
 ## Decoding
 ```bash
-./base_64.exe -d -f encoded
+./base_64 -d -f encoded
 ```
 Output:
 
