@@ -2,17 +2,17 @@
 #include<string.h>
 
 
-int power(int base, int p){ //this user defined function takes a number and power vaue and returns base^p
+int power(int base, int p){
    int result = 1;
-   if(p){ //if the value is not 0, it runs the statement below
-      for(int i = p; i > 0; i--){ //i i set to p and condition checks if i is greater than 1 if yes...it runs the statement
-      // in the for block which is base is multiplied by base until i is equal 1 
+   if(p){  
+      for(int i = p; i > 0; i--){  
+       
          result *= base;
       }
       return result;
    }
-   else{ //if the value of p is 0
-      return result; //returns 1
+   else{  
+      return result;  
    }
 }
 
@@ -75,7 +75,7 @@ int insert(char*data, int index, int element, int uSize, int tSize){
 }
 
 
-int binToDec(char* binary){ // function to convert binary value to decimal value
+int binToDec(char* binary){  
     
     int i = 0, j, k;
     int dec = 0;
