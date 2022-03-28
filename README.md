@@ -49,7 +49,7 @@ Output:
 ```terminal
 small portable base64-converter in C.
 ```
-
+---
 ```bash
 ./base_64 -d -i "U3RhciB0aGlzIHByb2plY3QgOiksIGl0IGJvb3N0cyBteSBlZ28u"
 
