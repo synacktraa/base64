@@ -6,17 +6,29 @@
 //=======================================================
 
 
-#include <io.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include "base64_utils.h"
 
 
-char* get_file_data(char*file) {
+int checkIfFileExists(const char * filename) {
 
-    if( (_access( file, 0 )) == -1 )
-        fprintf(stderr, "FileError: can't open the %s file.", file);
+    FILE *file;
+    if((file = fopen(filename, "r")) != NULL) {
+        fclose(file);
+        return 1;
+    }
+    return 0;
+}
+
+char* get_file_data(char*file, char ch) {
+
+    if(!checkIfFileExists(file)) {
+        fprintf(stderr, "FileError: can't open %s file.", file);
+        printf("%c", ch);
+        exit(1);
+    }
 
     int buffer_len = get_filesize(file)+2;
     
@@ -33,16 +45,16 @@ char* get_file_data(char*file) {
 }
 
 
-void encode(char*data, char*md){
+void encode(char*data, char*md, char ch){
 
     int buffer_len;
     char* plaintext;
 
     if( !strcmp(md, "-f") ) {
-        plaintext = get_file_data(data);
+        plaintext = get_file_data(data, ch);
 
     } else if( !strcmp(md, "-i") ) {
-        plaintext = data;
+        plaintext = strdup(data);
 
     } else plaintext = "";
     buffer_len = Strlen(plaintext);
@@ -64,6 +76,7 @@ void encode(char*data, char*md){
 
         if( charValidate(plaintext[i]) == -1 ){
             fprintf(stderr, "InputError: can't take non-ascii characters.");
+            printf("%c", ch);
             exit(1);
         }
 
@@ -115,21 +128,22 @@ void encode(char*data, char*md){
         insert(base64_val, Strlen(base64_val), 0x3d, Strlen(base64_val), base64_val_space);
 
     fwrite(base64_val, 1, Strlen(base64_val), stdout);
+    printf("%c", ch);
     free(base64_val); 
 
 }
 
-void decode(char*data, char*md){
+void decode(char*data, char*md, char ch){
 
 	int i, j;
     int buffer_len;
     char* base64_data;
 
     if( !strcmp(md, "-f") ) {
-        base64_data = get_file_data(data);
+        base64_data = get_file_data(data, ch);
 
     } else if( !strcmp(md, "-i") ) {
-        base64_data = data;
+        base64_data = strdup(data);
 
     }  else base64_data = "";
 
@@ -153,7 +167,8 @@ void decode(char*data, char*md){
 
         if (base64Validate(base64_data[i]) == -1) {
 
-            fprintf(stderr, "InputError: The string to be decoded is not correctly encoded.\n");
+            fprintf(stderr, "InputError: the string to be decoded is not correctly encoded.\n");
+            printf("%c", ch);
             exit(1);
         }
     
@@ -198,38 +213,51 @@ void decode(char*data, char*md){
 
     free(bin_dump);
     fwrite(decodeData, 1, Strlen(decodeData), stdout);
+    printf("%c", ch);
     free(decodeData);
 
 }
 
 int main(int argc, char* argv[]){
-	
+    
+    int ch;
+    #ifdef _WIN32
+        ch = 0;
+    #elif __unix__
+        ch = 10;
+    #endif
+    
     if ( argc==2 ) {
         if(!strcmp(argv[1], "-h")){
             fprintf(stdout, "\nNote: Put space separated data in quotes.\
             \nUsage: %s -e/-d <data>\n|CLI options|:-\
             \n\t-e - Encodes the data string\
-            \n\t-d - Decodes the data string\n", basename(argv[0]));
+            \n\t-d - Decodes the data string", basename(argv[0]));
+            printf("%c", ch);
 
         }
     }else if ( argc == 4 ) {
         if(!strcmp(argv[2], "-i") || !strcmp(argv[2], "-f")){
             if(!strcmp(argv[1], "-e")){
-                encode(argv[3], argv[2]);
+                encode(argv[3], argv[2], ch);
             } else if(!strcmp(argv[1], "-d")){
-                decode(argv[3], argv[2]);
+                decode(argv[3], argv[2], ch);
             } else {
                 fprintf(stderr, "FlagError: '%s' is an invalid flag.", argv[1]);
+                printf("%c", ch);
                 return 1;    
             }
         } else{
             fprintf(stderr, "FlagError: '%s' is an invalid flag.", argv[2]);
+            printf("%c", ch);
             return 1;
         }
 	} else {
         fprintf(stderr, "\nUsage: %s -e/-d <data>\
         \nFor more, check help section:\
-        \n    %s -h\n\n", basename(argv[0]), basename(argv[0]));
+        \n    %s -h\n", basename(argv[0]), basename(argv[0]));
+        printf("%c", ch);
+
     }
     return 0;
 }
