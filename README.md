@@ -10,7 +10,7 @@ Output:
 
 ```bash
 
-*Imp: Put space separated data in quotes.
+*IMP*: Put space separated data in quotes.
 Usage: base_64.exe -e/-d -i/-f <data>/<file>
 |CLI options|:-
         -e - Encodes the data string
