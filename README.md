@@ -61,5 +61,4 @@ Star this project :), it boosts my ego.
 ```
 ---
 
-
 <p align=center>&copy; This tool is based on ASCII charset.</p>
