@@ -12,21 +12,11 @@
 #include "base64_utils.h"
 
 
-int checkIfFileExists(const char * filename) {
-
-    FILE *file;
-    if((file = fopen(filename, "r")) != NULL) {
-        fclose(file);
-        return 1;
-    }
-    return 0;
-}
-
 char* get_file_data(char*file, char ch) {
 
     if(!checkIfFileExists(file)) {
         fprintf(stderr, "FileError: can't open %s file.", file);
-        printf("%c", ch);
+        putc(ch, stdout);
         exit(1);
     }
 
@@ -76,7 +66,7 @@ void encode(char*data, char*md, char ch){
 
         if( charValidate(plaintext[i]) == -1 ){
             fprintf(stderr, "InputError: can't take non-ascii characters.");
-            printf("%c", ch);
+            putc(ch, stdout);
             exit(1);
         }
 
@@ -128,7 +118,7 @@ void encode(char*data, char*md, char ch){
         insert(base64_val, Strlen(base64_val), 0x3d, Strlen(base64_val), base64_val_space);
 
     fwrite(base64_val, 1, Strlen(base64_val), stdout);
-    printf("%c", ch);
+    putc(ch, stdout);
     free(base64_val); 
 
 }
@@ -168,7 +158,7 @@ void decode(char*data, char*md, char ch){
         if (base64Validate(base64_data[i]) == -1) {
 
             fprintf(stderr, "InputError: the string to be decoded is not correctly encoded.\n");
-            printf("%c", ch);
+            putc(ch, stdout);
             exit(1);
         }
     
@@ -213,7 +203,7 @@ void decode(char*data, char*md, char ch){
 
     free(bin_dump);
     fwrite(decodeData, 1, Strlen(decodeData), stdout);
-    printf("%c", ch);
+    putc(ch, stdout);
     free(decodeData);
 
 }
@@ -233,7 +223,7 @@ int main(int argc, char* argv[]){
             \nUsage: %s -e/-d <data>\n|CLI options|:-\
             \n\t-e - Encodes the data string\
             \n\t-d - Decodes the data string", basename(argv[0]));
-            printf("%c", ch);
+            putc(ch, stdout);
 
         }
     }else if ( argc == 4 ) {
@@ -244,19 +234,19 @@ int main(int argc, char* argv[]){
                 decode(argv[3], argv[2], ch);
             } else {
                 fprintf(stderr, "FlagError: '%s' is an invalid flag.", argv[1]);
-                printf("%c", ch);
+                putc(ch, stdout);
                 return 1;    
             }
         } else{
             fprintf(stderr, "FlagError: '%s' is an invalid flag.", argv[2]);
-            printf("%c", ch);
+            putc(ch, stdout);
             return 1;
         }
 	} else {
         fprintf(stderr, "\nUsage: %s -e/-d <data>\
         \nFor more, check help section:\
         \n    %s -h\n", basename(argv[0]), basename(argv[0]));
-        printf("%c", ch);
+        putc(ch, stdout);
 
     }
     return 0;
