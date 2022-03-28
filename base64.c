@@ -219,10 +219,12 @@ int main(int argc, char* argv[]){
     
     if ( argc==2 ) {
         if(!strcmp(argv[1], "-h")){
-            fprintf(stdout, "\nNote: Put space separated data in quotes.\
-            \nUsage: %s -e/-d <data>\n|CLI options|:-\
+            fprintf(stdout, "\n*IMP*: Put space separated data in quotes.\
+            \nUsage: %s -e/-d -i/-f <data>/<file>\n|CLI options|:-\
             \n\t-e - Encodes the data string\
-            \n\t-d - Decodes the data string", basename(argv[0]));
+            \n\t-d - Decodes the data string\
+            \n\t-i - takes next argument as data string\
+            \n\t-f - takes next argument as filename", basename(argv[0]));
             putc(ch, stdout);
 
         }
@@ -243,7 +245,7 @@ int main(int argc, char* argv[]){
             return 1;
         }
 	} else {
-        fprintf(stderr, "\nUsage: %s -e/-d <data>\
+        fprintf(stderr, "\nUsage: %s -e/-d -i/-f <data>/<file>\
         \nFor more, check help section:\
         \n    %s -h\n", basename(argv[0]), basename(argv[0]));
         putc(ch, stdout);
