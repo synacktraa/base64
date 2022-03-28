@@ -144,6 +144,17 @@ int get_filesize(char file_name[]){
 }
 
 
+int checkIfFileExists(const char * filename) {
+
+    FILE *file;
+    if((file = fopen(filename, "r")) != NULL) {
+        fclose(file);
+        return 1;
+    }
+    return 0;
+}
+
+
 char *basename(char const *path) {
 
     auto char *win_basename_parser(char const *);
