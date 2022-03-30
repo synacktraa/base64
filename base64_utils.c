@@ -154,27 +154,24 @@ int checkIfFileExists(const char * filename) {
     return 0;
 }
 
+char *win_basename_parser(char const *path) {
+    char *s = strrchr(path, '\\');
+    if(!s) 
+        return strdup(path);
+    else 
+        return strdup(s + 1);
+}
+
+char *unix_basename_parser(char const *path) {
+    char *s = strrchr(path, '/');
+    if(!s) 
+        return strdup(path);
+    else 
+        return strdup(s + 1);
+}
 
 char *basename(char const *path) {
 
-    auto char *win_basename_parser(char const *);
-    auto char *unix_basename_parser(char const *);
-    
-    char *win_basename_parser(char const *path) {
-        char *s = strrchr(path, '\\');
-        if(!s) 
-            return strdup(path);
-        else 
-            return strdup(s + 1);
-    }
-
-    char *unix_basename_parser(char const *path) {
-        char *s = strrchr(path, '/');
-        if(!s) 
-            return strdup(path);
-        else 
-            return strdup(s + 1);
-    }
 
     if(strcmp(path, unix_basename_parser(path)))
         return strdup(unix_basename_parser(path));
