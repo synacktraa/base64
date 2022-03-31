@@ -79,7 +79,7 @@ Star this project :), it boosts my ego.
 ```
 ---
 
-### **Redirecting output to a file:**
+### **Redirecting output to a file**
 
 ##### Using the redirection operator↴
 
@@ -99,6 +99,5 @@ Star this project :), it boosts my ego.
 ./base_64 -e -f infile -o
 ```
 >ps: "-o" without a parameter uses the default filename 'base64Out'
-
 
 <p align=center>&copy; This tool is based on ASCII charset.</p>
