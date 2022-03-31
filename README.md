@@ -20,7 +20,7 @@ Small and portable Base64 Converter cli tool written in C.
 
 ---
 
-<h2 align="center">
+<h2>
 Usage
 </h2>
 
