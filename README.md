@@ -109,3 +109,14 @@ Star this project :), it boosts my ego.
 
 ---
 <p align=center>&copy; This tool is based on ASCII charset.</p>
+
+
+## **License**
+
+### <a target="_blank" href="https://choosealicense.com/licenses/mit/">MIT</a>
+
+Copyright for portions of project [base64-Converter](https://github.com/SynAcktraa/base64-Converter) are held by [Github Account [SynAcktraa](https://github.com/SynAcktraa) Owner, 2022] as part of project [base64-Converter](https://github.com/SynAcktraa/base64-Converter)
+
+All other copyright for project [base64-Converter](https://github.com/SynAcktraa/base64-Converter) are held by [Github Account [SynAcktraa](https://github.com/SynAcktraa) Owner, 2022].
+
+Check the [LICENSE](LICENSE) for more details.
