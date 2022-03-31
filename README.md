@@ -106,4 +106,5 @@ Star this project :), it boosts my ego.
 ```
 >ps: "-o" without a parameter uses the default filename 'base64Out'
 
+---
 <p align=center>&copy; This tool is based on ASCII charset.</p>
