@@ -15,7 +15,7 @@
 
 ---
 <h4 align="center">
-A cli tool based on base64 algorithm to encode and decode data.
+Small and portable Base64 Converter cli tool written in C.
 </h4>
 
 ---
