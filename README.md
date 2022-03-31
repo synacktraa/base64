@@ -110,7 +110,7 @@ Star this project :), it boosts my ego.
 ---
 <p align=center>&copy; This tool is based on ASCII charset.</p>
 
-
+---
 ## **License**
 
 ### <a target="_blank" href="https://choosealicense.com/licenses/mit/">MIT</a>
