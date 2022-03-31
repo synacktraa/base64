@@ -20,9 +20,15 @@ Small and portable Base64 Converter cli tool written in C.
 
 ---
 
-## Help
+<h2 align="center">
+Usage
+</h2>
 
->`base_64 -h`
+### Compile
+> make
+---
+
+### Help
 
 Output:
 
