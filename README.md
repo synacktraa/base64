@@ -104,6 +104,7 @@ Star this project :), it boosts my ego.
 ```bash
 ./base_64 -e -f infile -o
 ```
+
 >ps: "-o" without a parameter uses the default filename 'base64Out'
 
 ---
