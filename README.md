@@ -81,19 +81,19 @@ Star this project :), it boosts my ego.
 
 ### **Redirecting output to a file**
 
-##### Using the redirection operator↴
+<h5> Using the redirection operator↴ </h5>
 
 ```bash
 ./base_64 -d -i "U3RhciB0aGlzIHByb2plY3QgOiksIGl0IGJvb3N0cyBteSBlZ28u" > out.txt
 ```
 
-##### Using the -o argument with a filename↴
+<h5> Using the -o argument with a filename↴ </h5>
 
 ```bash
 ./base_64 -d -f encoded -o out
 ```
 
-##### Using the -o argument without a filename↴
+<h5> Using the -o argument without a filename↴ </h5>
 
 ```bash
 ./base_64 -e -f infile -o
