@@ -312,7 +312,7 @@ void decode(char*data, char*md, char ch, char* out){
 
 int main(int argc, char* argv[]){
     
-    char *store = "", *flag = "", *out = "";
+    char *store = "", *flag = "", *out = "", slash = '/';
     int ch = 0, i = 0;
 
     /*
@@ -322,8 +322,10 @@ int main(int argc, char* argv[]){
     */
     #ifdef _WIN32
         ch = 0;
+        slash = '\\';
     #elif __unix__
         ch = 10;
+        slash = '/';
     #endif
     
     int e_flag = 0, d_flag = 0, o_flag = 0, s_flag = 0;
@@ -336,7 +338,7 @@ int main(int argc, char* argv[]){
             \n\t-i - takes next argument as data string\
             \n\t-f - takes next argument as filename\
             \n\t-o - takes next argument as filename and saves the output in file\
-            \n\t     (if filename is not given, it defaults to base64Out)", basename(argv[0]));
+            \n\t     (if filename is not given, it defaults to base64Out)", basename(argv[0], slash));
             putc(ch, stdout);
 
     }else if ( argc >= 4 && argc <= 6 ) {
@@ -418,7 +420,7 @@ int main(int argc, char* argv[]){
 	} else {
         fprintf(stderr, "\nUsage: %s -e/-d -i/-f <data>/<file>\
         \nFor more, check help section:\
-        \n    %s -h\n", basename(argv[0]), basename(argv[0]));
+        \n    %s -h\n", basename(argv[0], slash), basename(argv[0], slash));
         putc(ch, stdout);
 
     }
