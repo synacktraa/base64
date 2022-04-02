@@ -18,5 +18,5 @@ clean:
 ifeq ($(OS),Windows_NT)
 	del *.o base_64.exe *.gch 
 else
-	rm *.o base_64 *.gch
+	rm *.o base_64* *.gch
 endif
