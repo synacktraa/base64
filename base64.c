@@ -181,6 +181,7 @@ void encode(char*data, char*md, char ch, char* out){
 
 }
 
+
 void decode(char*data, char*md, char ch, char* out){
 
 	int i, j;
@@ -199,7 +200,6 @@ void decode(char*data, char*md, char ch, char* out){
         base64_data = strdup(data);
 
     }  else base64_data = "";
-
     buffer_len = Strlen(base64_data);
     
     // calculates space for base64 encoded string
@@ -210,9 +210,10 @@ void decode(char*data, char*md, char ch, char* out){
     char Ox49_val_bin[9], byte_bin[9];
     char *bin_dump = (char*)malloc(sizeof(char) * bin_dump_space);
     char *decodeData = (char*)malloc(sizeof(char) * decData_val_space);
-
-
-	while(*(base64_data+(buffer_len-1)) == 0x3D){
+    
+    delspace(base64_data);
+    buffer_len = Strlen(base64_data);
+	while(*(base64_data+(buffer_len-1)) == '='){
     /*
         checks for '=' from the end of the input encoded string
         and deletes the padding 
