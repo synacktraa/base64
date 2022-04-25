@@ -9,58 +9,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "base64_utils.h"
+#include "utils.h"
 
 
-char* get_file_data(char*file, char ch) {
-
-/*
-    Checks if file exists on the system, if yes
-    stores the file size in buffer_len var
-    by evaulating get_filesize function which 
-    retrieves the file size and then reads the
-    file line by line and stores it in buffer 
-    and then concatenate it to data_storage
-    and finally frees the buffer and return data_storage
-*/
-    if(!checkIfFileExists(file)) {
-        fprintf(stderr, "FileError: can't open %s file.", file);
-        putc(ch, stdout);
-        exit(1);
-    }
-
-    int buffer_len = get_filesize(file)+2;
-    
-    FILE * file_in = fopen(file, "r");
-    char* data_storage = (char*)malloc(sizeof(char) * buffer_len);
-    char* buffer = (char*)malloc(sizeof(char) * buffer_len);
-
-    memset(data_storage, 0, Strlen(data_storage));
-    while (fgets(buffer, buffer_len, file_in))
-        strcat(data_storage, buffer);
-
-    free(buffer);
-    return data_storage;
-}
-
-
-void encode(char*data, char*md, char ch, char* out){
+void encode(char* plaintext, char* flag, char* out){
 
     int buffer_len;
-    char* plaintext;
-/*
-    compares md var, if it's '-f' it evaluates
-    get_file_data and gets the file content and stores
-    it in plaintext, else if it's '-i' it duplicates 
-    the data and stores it in plaintext.    
-*/
-    if( !strcmp(md, "-f") ) {
-        plaintext = get_file_data(data, ch);
 
-    } else if( !strcmp(md, "-i") ) {
-        plaintext = strdup(data);
-
-    } else plaintext = "";
     buffer_len = Strlen(plaintext);
 
     // calculates space for base64 encoded string
@@ -84,8 +39,8 @@ void encode(char*data, char*md, char ch, char* out){
             charValidate checks for non-ascii characters
         */
             if( charValidate(plaintext[i]) == -1 ){
-                fprintf(stderr, "InputError: can't take non-ascii characters.");
-                putc(ch, stdout);
+                fprintf(stderr, "InputError: can't take non-ascii characters");
+                putchar(ch);
                 exit(1);
             }
         /*
@@ -114,8 +69,8 @@ void encode(char*data, char*md, char ch, char* out){
         memset(Ox49_val_bin, 0, Strlen(Ox49_val_bin));
 
     }
-
-    free(plaintext);
+    if(!strcmp(flag, "-f"))
+        free(plaintext);
     
     bin_dump_len = Strlen(bin_dump);
     while( bin_dump_len%6 != 0 )
@@ -182,24 +137,11 @@ void encode(char*data, char*md, char ch, char* out){
 }
 
 
-void decode(char*data, char*md, char ch, char* out){
+void decode(char* base64_data, char* flag, char* out){
 
 	int i, j;
     int buffer_len;
-    char* base64_data;
-/*
-    compares md var, if it's '-f' it evaluates
-    get_file_data and gets the file content and stores
-    it in base64_data, else if it's '-i' it duplicates 
-    the data and stores it in base64_data.    
-*/
-    if( !strcmp(md, "-f") ) {
-        base64_data = get_file_data(data, ch);
 
-    } else if( !strcmp(md, "-i") ) {
-        base64_data = strdup(data);
-
-    }  else base64_data = "";
     buffer_len = Strlen(base64_data);
     
     // calculates space for base64 encoded string
@@ -228,7 +170,7 @@ void decode(char*data, char*md, char ch, char* out){
 
         if (base64Validate(base64_data[i]) == -1) {
 
-            fprintf(stderr, "InputError: the string to be decoded is not correctly encoded.\n");
+            fprintf(stderr, "InputError: the string to be decoded is not correctly encoded");
             putc(ch, stdout);
             exit(1);
         }
@@ -262,7 +204,8 @@ void decode(char*data, char*md, char ch, char* out){
         strcat(bin_dump, Ox49_val_bin);
         memset(Ox49_val_bin, 0, Strlen(Ox49_val_bin));
     }
-    free(base64_data);
+    if(!strcmp(flag, "-f"))
+        free(base64_data);
     
     int bin_dump_len = Strlen(bin_dump);
     while( bin_dump_len%8 != 0 ){
@@ -313,58 +256,62 @@ void decode(char*data, char*md, char ch, char* out){
 
 int main(int argc, char* argv[]){
     
-    char *store = "", *flag = "", *out = "", slash = '/';
-    int ch = 0, i = 0;
-
-    /*
-        checks for operating system, if it detects windows
-        ch is set null, if it's unix/linux ch is set to new
-        line
-    */
-    #ifdef _WIN32
-        ch = 0;
-        slash = '\\';
-    #elif __unix__
-        ch = 10;
-        slash = '/';
-    #endif
-    
-    int e_flag = 0, d_flag = 0, o_flag = 0, s_flag = 0;
+    char *string=NULL, *file=NULL, *out=NULL, *flag=NULL;
+    int e_flag = 0, d_flag = 0, o_flag = 0, i_flag = 0, f_flag = 0,i = 0;
 
     if ( argc==2 && !strcmp(argv[1], "-h") ) {
-            fprintf(stdout, "\n*IMP*: Put space separated data in quotes.\
-            \nUsage: %s -e/-d -i/-f <data>/<file>\n|CLI options|:-\
-            \n\t-e - Encodes the data string\
-            \n\t-d - Decodes the data string\
-            \n\t-i - takes next argument as data string\
-            \n\t-f - takes next argument as filename\
-            \n\t-o - takes next argument as filename and saves the output in file\
-            \n\t     (if filename is not given, it defaults to base64Out)", basename(argv[0], slash));
+            fprintf(stdout, "[Imp]: Put space separated data in quotes.\
+            \nUsage: %s [-e|-d] [-i|-f] [string|file]\n|CLI options|:-\
+            \n   -e  encodes the data string\
+            \n   -d  decodes the data string\
+            \n   -i  specify data string for manipulation\
+            \n   -f  specify filename for manipulation\
+            \n   -o  specify filename to store the result\
+            \n       [if filename isn't specified, it defaults to base64Out]", basename(argv[0], slash));
             putc(ch, stdout);
 
     }else if ( argc >= 4 && argc <= 6 ) {
 
         for(; i < argc; ++i){
 
-            if(!strcmp(argv[i], "-i") || !strcmp(argv[i], "-f")){
-                s_flag = 1;
-                flag = argv[i];
+            if(!strcmp(argv[i], "-i")){
+                i_flag = 1;
+                flag="-i";
                 if( argv[i+1] == NULL ){
-                    fprintf(stderr, "InputError: no data or file detected");
+                    fprintf(stderr, "InputError: no data detected");
                     putc(ch, stdout);
                     return 1;
                 }
-                store = argv[i+1];
+                string = argv[i+1];
+            }
+        }
+        for(i=0; i < argc; ++i){
+
+            if(!strcmp(argv[i], "-f")){
+                f_flag = 1;
+                flag="-f";
+                if( argv[i+1] == NULL ){
+                    fprintf(stderr, "FileError: no file detected");
+                    putc(ch, stdout);
+                    return 1;
+                }
+                file = argv[i+1];
             }
         }
 
-        if (s_flag == 0){
+        if (!i_flag && !f_flag){
 
             fprintf(stderr, "FlagError: data or file flag not detected");
             putc(ch, stdout);
             return 1;
         }
+        if (i_flag && f_flag){
 
+            fprintf(stderr, "FlagError: can't manipulate two data at once.");
+            putc(ch, stdout);
+            return 1;
+        }
+        
         for(i = 0; i < argc; ++i) {
             if(!strcmp(argv[i], "-e")){
                 e_flag += 1;
@@ -386,7 +333,7 @@ int main(int argc, char* argv[]){
         
         if(e_flag > 1 || d_flag > 1){
 
-            fprintf(stderr, "FlagError: same flag repeated");
+            fprintf(stderr, "FlagError: can't use same flags more than once");
             putc(ch, stdout);
             return 1;
         }
@@ -410,12 +357,20 @@ int main(int argc, char* argv[]){
         }
 
         if(o_flag == 0) 
-            out = NULL;
+            out=NULL;
 
+        if(f_flag){
+            string=retrieve(file);
+            if(string == NULL){
+                fprintf(stderr, "FileError: can't open %s file.", file);
+                putc(ch, stdout);
+                exit(1);
+            }
+        }
         if ( e_flag ) {
-            encode(store, flag, ch, out);
+            encode(string, flag, out);
         } else if ( d_flag ) {
-            decode(store, flag, ch, out);
+            decode(string, flag, out);
         }
 
 	} else {
