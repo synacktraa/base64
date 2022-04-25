@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<string.h>
+#include<stdlib.h>
 
 
 int power(int base, int p){
@@ -130,7 +131,7 @@ int base64Validate(char b64ec) {
 }
 
 
-int get_filesize(char file_name[]){
+int retbuf(char* file_name){
 
     FILE* fp = fopen(file_name, "r");
     if (fp == NULL) {
@@ -144,7 +145,7 @@ int get_filesize(char file_name[]){
 }
 
 
-int checkIfFileExists(const char * filename) {
+int fcheck(const char * filename) {
 
     FILE *file;
     if((file = fopen(filename, "r")) != NULL) {
@@ -152,6 +153,36 @@ int checkIfFileExists(const char * filename) {
         return 1;
     }
     return 0;
+}
+
+
+char* retrieve(char*file) {
+
+/*
+    Checks if file exists on the system, if yes
+    stores the file size in buffer_len var
+    by evaulating get_filesize function which 
+    retrieves the file size and then reads the
+    file line by line and stores it in buffer 
+    and then concatenate it to data_storage
+    and finally frees the buffer and return data_storage
+*/
+    if(!fcheck(file)) {
+        return (NULL);
+    }
+
+    int buffer_len = retbuf(file)+2;
+    
+    FILE * file_in = fopen(file, "r");
+    char* data_storage = (char*)malloc(sizeof(char) * buffer_len);
+    char* buffer = (char*)malloc(sizeof(char) * buffer_len);
+
+    memset(data_storage, 0, Strlen(data_storage));
+    while (fgets(buffer, buffer_len, file_in))
+        strcat(data_storage, buffer);
+
+    free(buffer);
+    return data_storage;
 }
 
 
@@ -163,6 +194,7 @@ char *basename(char const *path, char slash) {
     else 
         return strdup(s + 1);
 }
+
 
 void delspace(char* s) {
     char* d = s;

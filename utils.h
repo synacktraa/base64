@@ -3,6 +3,12 @@
 
 //Function declarations
 
+#ifdef _WIN32
+    char ch = 0, slash = '\\'; 
+#elif __unix__
+    char ch = 10, slash = '/'; 
+#endif
+
 int insert(char*data, int index, int element, int uSize, int tSize);
 int delete(char*data, int index, int len);
 void reverse(char*str);
@@ -12,8 +18,9 @@ char* decToBin(int dec);
 int binToDec(char* bin);
 int charValidate(char ch);
 int base64Validate(char b64ed);
-int get_filesize(char file_name[]);
-int checkIfFileExists(const char * filename);
+int retbuf(char* file_name);
+int fcheck(const char * filename);
+char* retrieve(char*file);
 char *basename(char const *path, char slash);
 void delspace(char* s);
 
