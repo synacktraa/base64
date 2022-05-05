@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
+#include<ctype.h>
 
 
 int power(int base, int p){
@@ -131,19 +132,6 @@ int base64Validate(char b64ec) {
 }
 
 
-int retbuf(char* file_name){
-
-    FILE* fp = fopen(file_name, "r");
-    if (fp == NULL) {
-        return -1;
-    }
-    fseek(fp, 0L, SEEK_END);
-    int res = ftell(fp);
-    fclose(fp);
-  
-    return res;
-}
-
 
 int fcheck(const char * filename) {
 
@@ -158,31 +146,38 @@ int fcheck(const char * filename) {
 
 char* retrieve(char*file) {
 
-/*
-    Checks if file exists on the system, if yes
-    stores the file size in buffer_len var
-    by evaulating get_filesize function which 
-    retrieves the file size and then reads the
-    file line by line and stores it in buffer 
-    and then concatenate it to data_storage
-    and finally frees the buffer and return data_storage
-*/
     if(!fcheck(file)) {
-        return (NULL);
+        fprintf(stderr, "FileError: can't open %s file.\n", file);
+        exit(1);
     }
 
-    int buffer_len = retbuf(file)+2;
+    int buffsize = 512;
+    FILE * fptr = fopen(file, "rb");
+    char* buffer = (char*)malloc(buffsize);
     
-    FILE * file_in = fopen(file, "r");
-    char* data_storage = (char*)malloc(sizeof(char) * buffer_len);
-    char* buffer = (char*)malloc(sizeof(char) * buffer_len);
+    if(buffer == NULL) exit(EXIT_FAILURE);
 
-    memset(data_storage, 0, Strlen(data_storage));
-    while (fgets(buffer, buffer_len, file_in))
-        strcat(data_storage, buffer);
+    int ch, cursor = 0;
 
-    free(buffer);
-    return data_storage;
+    while(ch != EOF) { 
+        ch = fgetc(fptr); //storing char in ch
+        
+        // if ch is not the end of file, buffer is appended with ch char value
+        if(isprint(ch) || ch == '\t' || ch == '\n')
+            buffer[cursor++] = (char)ch;
+
+        /* if cursor crosses current buffer size
+            it's doubled in size and new size gets reallocated */
+        if(cursor >= buffsize - 1) { 
+            buffsize <<=1;
+            buffer = (char*)realloc(buffer, buffsize);
+        }
+        
+    } // while ch is not end of the file
+    
+    fclose(fptr); //always close the file pointer BAKA ^_^         
+    // puts(buffer);
+    return buffer;
 }
 
 

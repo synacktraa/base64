@@ -15,9 +15,7 @@
 void encode(char* plaintext, char* flag, char* out){
 
     int buffer_len;
-
     buffer_len = Strlen(plaintext);
-
     // calculates space for base64 encoded string
     int base64_val_space = (0.4*(buffer_len+1))+buffer_len+2;
     // calculates space for binary dump of input string
@@ -34,7 +32,6 @@ void encode(char* plaintext, char* flag, char* out){
     memset(bin_dump, 0, Strlen(bin_dump));
 
     for( i=0; plaintext[i] != '\0'; ++i ) {
-        label:
         /*
             charValidate checks for non-ascii characters
         */
@@ -42,15 +39,6 @@ void encode(char* plaintext, char* flag, char* out){
                 fprintf(stderr, "InputError: can't take non-ascii characters");
                 putchar(ch);
                 exit(1);
-            }
-        /*
-            checks for CR(carriage return) [this problem occurs in unix 
-            systems] if present it deletes CR at the current
-            index and proceeds to continue from label.
-        */
-            if (plaintext[i] == 13){
-                delete(plaintext, i, Strlen(plaintext));
-                goto label;    
             }
 
         strcpy(Ox49_val_bin, decToBin(plaintext[i]));
@@ -67,7 +55,7 @@ void encode(char* plaintext, char* flag, char* out){
         //a binary dump which will be manipulated later   
         strcat(bin_dump, Ox49_val_bin);
         memset(Ox49_val_bin, 0, Strlen(Ox49_val_bin));
-
+    
     }
     if(!strcmp(flag, "-f"))
         free(plaintext);
@@ -80,7 +68,7 @@ void encode(char* plaintext, char* flag, char* out){
     */
         bin_dump_len = insert(bin_dump, bin_dump_len, '0', bin_dump_len, Strlen(bin_dump)+1);
 
-    i = 0, j = 0;   
+    i = 0, j = 0;  
     while( i[bin_dump]!='\0' ){
     /*
         moves 6 bits from bin_dump to six_bit_bin,
@@ -91,9 +79,8 @@ void encode(char* plaintext, char* flag, char* out){
     */
         memset(six_bit_bin, 0, Strlen(six_bit_bin));
         memmove(six_bit_bin, bin_dump+i, 6);
-
+        six_bit_bin[6] = 0;
         int ascii_val = binToDec(six_bit_bin);
-
         if( ascii_val>=0 && ascii_val<=25 )
             base64_val[j] = ascii_val+65;
         else if( ascii_val>=26 && ascii_val<=51 )
@@ -104,13 +91,12 @@ void encode(char* plaintext, char* flag, char* out){
             base64_val[j] = ascii_val-19;
         else if( ascii_val==63 )
             base64_val[j] = ascii_val-16;
+        
         j++; i += 6;
 
     }
     base64_val[j] = '\0';
-
     free(bin_dump);
-
     while( Strlen(base64_val)%4 != 0 )
     /*
         inserts '=' at the end of the base64 encoded string until
@@ -361,11 +347,6 @@ int main(int argc, char* argv[]){
 
         if(f_flag){
             string=retrieve(file);
-            if(string == NULL){
-                fprintf(stderr, "FileError: can't open %s file.", file);
-                putc(ch, stdout);
-                exit(1);
-            }
         }
         if ( e_flag ) {
             encode(string, flag, out);
