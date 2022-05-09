@@ -159,8 +159,7 @@ char* retrieve(char*file) {
 
     int ch, cursor = 0;
 
-    while(ch != EOF) { 
-        ch = fgetc(fptr); //storing char in ch
+    while((ch=fgetc(fptr)) != EOF) { 
         
         // if ch is not the end of file, buffer is appended with ch char value
         if(isprint(ch) || ch == '\t' || ch == '\n')
@@ -171,6 +170,7 @@ char* retrieve(char*file) {
         if(cursor >= buffsize - 1) { 
             buffsize <<=1;
             buffer = (char*)realloc(buffer, buffsize);
+			if(buffer == NULL) exit(EXIT_FAILURE);
         }
         
     } // while ch is not end of the file
