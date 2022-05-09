@@ -242,7 +242,7 @@ void decode(char* base64_data, char* flag, char* out){
 
 int main(int argc, char* argv[]){
     
-    char *string=NULL, *file=NULL, *out=NULL, *flag=NULL;
+    char *string=NULL, *file=NULL, *out=NULL, *flag=NULL, *exe = basename(argv[0], slash);
     int e_flag = 0, d_flag = 0, o_flag = 0, i_flag = 0, f_flag = 0,i = 0;
 
     if ( argc==2 && !strcmp(argv[1], "-h") ) {
@@ -253,8 +253,10 @@ int main(int argc, char* argv[]){
             \n   -i  specify data string for manipulation\
             \n   -f  specify filename for manipulation\
             \n   -o  specify filename to store the result\
-            \n       [if filename isn't specified, it defaults to base64Out]", basename(argv[0], slash));
+            \n       [if filename isn't specified, it defaults to base64Out]", exe);
             putc(ch, stdout);
+			free(exe);
+			exe = NULL;
 
     }else if ( argc >= 4 && argc <= 6 ) {
 
@@ -357,10 +359,14 @@ int main(int argc, char* argv[]){
 	} else {
         fprintf(stderr, "\nUsage: %s -e/-d -i/-f <data>/<file>\
         \nFor more, check help section:\
-        \n    %s -h\n", basename(argv[0], slash), basename(argv[0], slash));
+        \n    %s -h\n", exe, exe);
+		free(exe);
+		exe = NULL;
         putc(ch, stdout);
 
     }
+	free(exe);
+	exe = NULL;
     return 0;
 }
 
